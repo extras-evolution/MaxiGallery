@@ -65,7 +65,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 //
 // Path where the galleries will be stored (you have to create it and make it writeable!)
-$path_to_galleries="assets/galleries/"; // [ path ]
+$path_to_galleries=$modx->config['rb_base_url'] . 'galleries/'; // [ path ]
 //
 // Path where MaxiGallery is installed
 define(MAXIGALLERY_PATH, "assets/snippets/maxigallery/");
