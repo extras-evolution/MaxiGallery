@@ -4,12 +4,12 @@
 // make a language file for it too, f.ex. /maxigallery/slidebox/slidebox_lang_en.js
 $strings['previous']="&laquo; previous";
 $strings['next']="next &raquo;";
-$strings['click_to_zoom']=" &raquo; Click to zoom ->";
-$strings['click_to_go_back']="<- Click to go back";
+$strings['click_to_zoom']=" &raquo; Click to zoom -&gt;";
+$strings['click_to_go_back']="&lt;- Click to go back";
 $strings['click_to_open_original']= "Click to open big image";
 $strings['back_to_normal_view'] = "Back to normal view";
 $strings['index']="index";
-$strings['go_to_gallery']="Go to gallery ->";
+$strings['go_to_gallery']="Go to gallery -&gt;";
 $strings['pictures_successfully_uploaded']="<b>Pictures uploaded successfully.</b>";
 $strings['changes_have_been_saved']="<b>Changes have been saved.</b>";
 $strings['delete']="Delete";
