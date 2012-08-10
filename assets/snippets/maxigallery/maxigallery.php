@@ -235,6 +235,15 @@ if($mg->mgconfig['is_target']==true && $_REQUEST['gal_id']){
 }else{
 	$mg->pageinfo=$modx->getPageInfo($modx->documentIdentifier,0, "id, pagetitle, longtitle, description, alias, createdby");
 }
+$_ = $modx->config['base_path'] . rtrim($path_to_galleries,'/');
+if(!is_dir($_)) {
+	$rs = mkdir($_,true);
+	if($rs) {
+		chmod($_, 0777);
+		file_put_contents($_ . '/index.html', '');
+	}
+}
+unset($_);
 $mg->path_to_gal=$path_to_galleries.$mg->pageinfo['id']."/";
 
 //validate gallery table
