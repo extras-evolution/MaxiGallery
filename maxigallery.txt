@@ -1,3 +1,18 @@
+//<?php
+/**
+ * MaxiGallery
+ * 
+ * Advanced imagegallery snippet
+ *
+ * @category 	snippet
+ * @version 	0.5.3
+ * @authoer 	doze <dozebox@gmail.com>
+ * @authoer 	yama <yamamoto@kyms.jp>
+ * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
+ * @internal	@properties 
+ * @internal	@modx_category Content
+ */
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // PASTE THE CONTENTS OF THIS FILE INTO MODx WHEN INSTALLING THIS SNIPPET
