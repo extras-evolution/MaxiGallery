@@ -4,7 +4,7 @@
 // 
 // Snippet Name: 		MaxiGallery
 // Short Description: 	Advanced imagegallery snippet
-// Version: 			0.5.2
+// Version: 			0.5.3
 // Author: 				doze <dozebox@gmail.com>
 // 
 // Note:
