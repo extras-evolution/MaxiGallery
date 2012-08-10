@@ -40,7 +40,7 @@ class maxiGallery {
 	//returns true or false indicating success
 	function createTable() {
 		global $modx;
-		$sql="CREATE TABLE $this->pics_tbl (
+		$sql="CREATE TABLE IF NOT EXISTS $this->pics_tbl (
 			`id` int(10) unsigned NOT NULL auto_increment,
 			`gal_id` int(10) unsigned NOT NULL,
 			`filename` tinytext NOT NULL,
@@ -51,7 +51,7 @@ class maxiGallery {
 			`own_id` int(10) default NULL,
 			`hide` int(1) default 0,
 			PRIMARY KEY  (`id`)
-	    ) TYPE=MyISAM AUTO_INCREMENT=1 ;";
+	    ) ENGINE=MyISAM AUTO_INCREMENT=1 ;";
 		$query1=$modx->db->query($sql);
 		return $query1;
 	}
