@@ -1,0 +1,152 @@
+MaxiGallery Changelog:
+----------------------
+27/05/2007: Version 0.5.2
+ - Fixed: Slimbox and Lightbox v2 language files, image paths were wrong in few
+ - Added: Swedish language files 
+ - Fixed: Running script multiple times on a document (pclzip callback function was not checked)
+ - Changed: Slimbox updated to v1.31
+ - Fixed: Zip uploading checks for max_pic_number setting (discards images that exceed the limit) 
+ - Added: Italian, Slovenian, Danish, Spanish, European Portuguese and Dutch language packs 
+ - Changed: Filename database fieldtype to tinytext to support longer filenames
+ - Fixed: Possible template loading bug in certain environments 
+ - Added: upload_field_count parameter (to set the amount of upload fields in picture management)
+ - Changed: ZIP archive extracting now uses PclZip library, so it doesn't require anything special from server environment to work
+ - Fixed: Picture view display mode when no pictures are yet in the gallery
+ - Added: Default templates now add the 'manage pictures' button to the page if display=pictureview
+ - Added: maxigallery.config.snippetparameter placeholders to pictureTpl 
+ - Fixed: Default css was not included in childgalleries display mode
+
+15/04/2007: Version 0.5.1
+ - Added: Gallery resynch feature. Possible to upload pictures into galleries via FTP.
+ - Added: maxigallery.managebutton placeholder to pictureTpl (to be used with pictureview display mode)
+ - Fixed: In picture management, mooSortables is now always included to make the sorting window work (you can still use prototype/scriptaculous for the actual sorting)
+ - Fixed: Do not register smoothgallery scripts if there aren't any pictures in a the gallery (made multiple smoothgalleries on same page break)
+ - Added: &childgalleries_limit parameter to define how many childgalleries to retrieve, defaults to all 
+ - Removed: Forced black border css setting in smoothgallery divs 
+ - Added: &smoothgallery_id parameter to allow multiple smoothgalleries on same page
+ - Added: [+maxigallery.config.<snippet parameter>+] placeholders to all templates 
+ - Removed: Outdated language files (only English and Finnish now)
+ - Fixed: &query_level_limit parameter was not working as it should
+ - Changed: Random sort order now uses mysql rand() instead of php shuffle 
+ - Fixed: Childgalleries display mode (did not show all galleries)
+ - Added: "pictureview" option to &display parameter what makes maxigallery go straight to picture view when gallery is displayed
+ - Added: &pictureview_start_id and &pictureview_start_pos parameter to define picture id or position where to start in pictureview display option, default is first picture
+ - Added: &ftp_base_dir parameter to define path to modx folder from ftp root 
+ - Fixed: Flush resources when image conversions are done 
+
+05/03/2007: Version 0.5
+ - Changed: Template parameters now use @CODE: and @FILE: to describe where to get the template code. Default is from a chunk with the value as the chunk name.
+ - Changed: Default CSS styles for the draggable reordering window 
+ - Changed: &max_pic_size default value to 450, fits better with default MODx templates
+ - Changed: if &max_pics_number is set and less than 10 pictures are available to be uploaded, file upload input fields are decreased accordingly
+ - Added: [+maxigallery.pics_allowed_count+] placeholder to manageOuterTpl what shows the number of pictures allowed to upload
+ - Changed: if no title/description set for the picture, do not make any html markup for them
+ - Added: &manageButtonTpl, possible placehoders: [+maxigallery.urlaction+], [+maxigallery.hiddenfields+], [+maxigallery.strings.key+]
+ - Added: pagenumbers, childgalleries and thumbnails wrapped in divs in default templates to ease the styling 
+ - Changed: &childgalleryPictureTpl parameter renamed to &childgalleryTpl
+ - Added: TV support to childgalleryTpl, [+maxigallery.pageinfo.tv.tvnamehere+] placeholders 
+ - Changed: SmoothGallery updated to 1.0.1 
+ - Added: Possibility to use config files 
+ - Changed: Default html markup now produces the thumbnails view as unordered list, should validate XHTML 1.0 Transitional and thumbnails layout correctly even if different sizes and caption lenghts. 
+ - Fixed: Language loading
+
+20/02/2007: Version 0.5 RC 1
+ - Fixed: Before using ini_set, check that are the values already high enough
+ - Added: &gal_query_ids, &query_level_limit and &pic_query_ids parameters. Possible to retrieve pictures from multiple galleries or just single picture id's.
+ - Added: "random" option to &order_by parameter
+ - Changed: Updated slimbox to version 1.3 that uses mootools 1.0
+ - Added: Possible to set max picture sizes in widthxheight format
+ - Added: Possible to use ftp commands to create gallery filesystem folders (needed in certain setups)
+ - Added: Draggable sorting feature
+ - Added: "Jump to upload form" and "back to top" links to picture management
+ - Added: hide checkbox to picture management to hide pictures from gallery
+ - Added: outerTpl childgallerycount and picscount placeholders, childgalleryPictureTpl picscount placeholder
+ - Added: MAXIGALLERY_PATH constant to ease setup of multiple gallery installations
+ - Added: &disable_js_libs parameter to make it not include mootools/prototype/scriptaculous libs
+ - Fixed: Check document permissions using MODx udperms class, should behave same as MODx user permissions now
+ - Added: &random_filenames parameter to generate random filenames for the uploaded pictures
+ - Added: &offset and &limit parameters to be able to offset the returned result set manually and limit to certain amount
+ - Added: &childgalleries_ids parameter, possible to define multiple parents, "all" shows all galleries
+ - Changed: Replaced Jon's SmoothSlideshow with SmoothGallery
+ - Changed: Center thumbnails horizontally in default css 
+ - Added: &childgalleries_order_by and &childgalleries_order_direction parameters (order by modx document object field)
+ - Added: Delete all pictures button to picture management
+ - Added: &admin_webusers and &admin_webgroups parameters (they see all pictures in gallery)
+ - Added: Slimbox translation possibility, same as lightbox v2
+ - Fixed: Prev and Next labels was not shown in lightbox v2 when using IE
+ - Changed: Do not display page navigator in gallery overview if just one page
+ - Fixed: Pagenumber template mixup
+ - Added: New parameters to customize slideshow script 
+
+18/11/2006: Version 0.5 BETA 2
+ - Fixed: CSS file linking
+ - Fixed: Next / prev links goes back to gallery from picture view if in last / first picture (in default PHx templates, links are just text when in first/last page)
+ - Changed: Updated PHx class to 2.0 Rev 5
+ - Fixed: Possible to use manage_target and manage_gallery parameters at the same time
+ - Fixed: Permission checking when logged in frond end and back end at the same time
+ - Fixed: Issues with MySQL strict mode
+ - Changed: Updated MODx DBapi calls to newer syntax
+ - Fixed: Possible to run snippet multiple times on a document
+ - Fixed: Issues with view_gallery parameter
+ - Fixed: Better error handling to childgalleries display mode
+ - Fixed: Typo $modx->$config to $modx->config
+ - Changed: Galleryoutertpl prints next / prev just text and not links if last / first page. Currently only works if PHx is installed as plugin.
+ - Added: Slimbox and SmoothSlideshow 2.0
+
+08/11/2006: Version 0.5 BETA 1
+ - Added: Templating ability. Default templates uses PHx (uses "local" PHx class included in this snippet, if the plugin is not installed in MODx)
+ - Added: Parameters to include user defined css and js in to the pages where maxigallery runs.
+ - Added: More clever handling of pagination urls
+ - Added: Lightbox v2 translate scripts
+ - Added: Javascript what hides lightbox v2 images while scripts are loading (snatched from slidebox)
+ - Added: view_gallery parameter to view galleries on documents that actually reside in some other document
+ - Changed: Code refactoring by Marc
+ - Changed: HTML entities conversion is not done in the code hardcoded anymore, phx features are used in the templates instead
+ - Changed: getAllSubDocuments uses MODx api calls now instead of querying the database
+ - Changed: Updated Slidebox to the newest version
+ - Fixed: base url is now added to every image url, so they should work correctly when friendly alias paths are enabled
+ - Fixed: Selects were not set back to visible on lightbox close, bug and fix reported by sottwell
+ - Fixed: PHP short tags changed to normal tags
+ - Fixed: Other smaller fixes before SVN came along what did not get documented
+
+18/05/2006: Version 0.4.1
+ - Fixed: If used in unpublished document, when all pictures where deleted from some gallery, the whole galleries folder got deleted
+ - Fixed: Could not upload pictures if filetype suffix was in caps
+ - Fixed: Errors when uploading gif/png pics
+ - Fixed: Errors if used in document what also has newslisting snippet
+ - Changed: Quotes in picture titles and descriptions are now also converted to htmlentities
+ - Changed: Functions moved to separate file
+ - Added: Dutch, Spanish and Italian language files (thanks to all translators! sottwell, banzai, ddecjc, knud, PeterH, Marc, aour, and others!)
+
+17/04/2006: Version 0.4
+ - Added: Possible to set what charset to use in picture titles/descriptions, uses charset from MODx by default
+ - Added: Possible to set up web users or web usergroups who can also post pictures and manage their own pics
+ - Added: Childgalleries display mode goes through whole tree hierarchy by default, possible to use level limit
+
+14/04/2006: Version 0.3
+ - Fixed: If friendly alias paths are enabled, overlay was not used in slidebox when viewing with IE
+ - Fixed: Javascripts loading sequence (caused errors with specific snippet parameters)
+ - Fixed: Generate necessary Gallery XML-file automatically upon uploading pictures if needed
+ - Fixed: Picture file names are cleaned upon upload, e.g. illegal characters abd spaces removed
+ - Added: &disable_rightclick, Option to disable right clicking on gallery pages (not very efficient, but something)
+ - Added: Picture ID is now visible at the picture management, can be used when linking to gallery pics
+ - Changed: MODx tags removed from javascripts and moved to parse at the snippet side (caused errors in some enviroments)
+ - Changed: Custom JS files moved to own directory
+
+09/04/2006: Version 0.2
+ - Fixed: Issues when friendly alias path is enabled (first try)
+ - Fixed: Other possible issues in certain server enviroments
+ - Added: Lightbox v2.0 integration
+ - Added: French language files
+ - Changed: Language files moved to own folder
+ - Changed: Older ajax lightbox is now called "slidebox", change it in your snippet calls!
+ - Changed: Some little tweaks to the slidebox stylesheet
+ - Changed: All links now use makeURL api to build correct urls
+ - Changed: Better logic to see is any scripts needed to include to the head
+
+07/04/2006: Version 0.1b
+ - Fixed: Database table was not created automatically
+ - Added: Deutch language files
+
+07/04/2006: Version 0.1
+ - Initial release
