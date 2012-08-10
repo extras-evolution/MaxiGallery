@@ -1,0 +1,26 @@
+//<?php
+/**
+ * MaxiGallery
+ * 
+ * Advanced imagegallery snippet
+ *
+ * @category 	snippet
+ * @version 	0.5.3
+ * @authoer 	doze <dozebox@gmail.com>
+ * @authoer 	yama <yamamoto@kyms.jp>
+ * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
+ * @internal	@properties 
+ * @internal	@modx_category Content
+ */
+
+// Path where the galleries will be stored (you have to create it and make it writeable!)
+$path_to_galleries=$modx->config['rb_base_url'] . 'galleries/';
+
+// Path where MaxiGallery is installed
+define(MAXIGALLERY_PATH, "assets/snippets/maxigallery/");
+
+//include snippet file
+$output = '';
+include_once($modx->config['base_path'].MAXIGALLERY_PATH.'maxigallery.php');
+
+return $output;
