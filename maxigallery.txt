@@ -72,7 +72,7 @@ define(MAXIGALLERY_PATH, "assets/snippets/maxigallery/");
 //
 //include snippet file
 $output = "";
-include($modx->config['base_path'].MAXIGALLERY_PATH.'maxigallery.php');
+include_once($modx->config['base_path'].MAXIGALLERY_PATH.'maxigallery.php');
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
