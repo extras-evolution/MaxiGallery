@@ -793,10 +793,18 @@ class maxiGallery {
 	function getChildIds($id, $depth= 10, $children= array()) {
 		global $modx;
 		$c= null;
+		if(method_exists($modx,'setdocumentMap') && !$modx->documentMap) {
+			$modx->setdocumentMap();
+		}
 		foreach ($modx->documentMap as $mapEntry) {
 			if (isset ($mapEntry[$id])) {
 				$childId= $mapEntry[$id];
-				$childKey= array_search($childId, $modx->documentListing);
+				if(method_exists($modx,'getDocumentListing')) {
+					$childKey = $modx->getDocumentListing($childId);
+				}
+				else {
+					$childKey= array_search($childId, $modx->documentListing);
+				}
 				if (!$childKey) {
 					$childKey= "$childId";
 				}
