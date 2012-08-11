@@ -22,7 +22,21 @@ if (file_exists($configFile)) {
 }
 
 //language default value
-$mgconfig['lang'] = (isset($lang)) ? $lang : "en"; // [ en | fi | da | es | it | nl | pt | sl | sv ] (you can add more by your self, see lang_en.php for example)
+switch($modx->config['manager_language'])
+{
+	case 'danish'         : $lc = 'da';break;
+	case 'finnish'        : $lc = 'fi';break;
+	case 'italian'        : $lc = 'it';break;
+	case 'japanese-utf8'  : $lc = 'ja';break;
+	case 'nederlands'     : $lc = 'nl';break;
+	case 'portuguese'     : $lc = 'pt';break;
+	case 'spanish'        : $lc = 'es';break;
+	case 'svenska'        :
+	case 'svenska-utf8'   : $lc = 'sv';break;
+	default               : $lc = 'en';
+}
+
+$mgconfig['lang'] = (isset($lang)) ? $lang : $lc; // [ en | fi | da | es | it | nl | pt | sl | sv ] (you can add more by your self, see lang_en.php for example)
 
 //include lang file
 $langfile = $modx->config['base_path'].MAXIGALLERY_PATH.'lang/lang_'.$mgconfig['lang'].'.php';
