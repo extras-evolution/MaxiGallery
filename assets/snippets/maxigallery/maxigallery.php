@@ -261,7 +261,7 @@ unset($_);
 $mg->path_to_gal=$path_to_galleries.$mg->pageinfo['id']."/";
 
 //validate gallery table
-$query=mysql_query("DESC $mg->pics_tbl");
+$query=$modx->db->query("DESC $mg->pics_tbl");
 if(!$query) {
 	if($mg->createTable()){
 		$descvalid = 1; 
