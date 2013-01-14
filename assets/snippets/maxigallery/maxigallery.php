@@ -261,8 +261,10 @@ unset($_);
 $mg->path_to_gal=$path_to_galleries.$mg->pageinfo['id']."/";
 
 //validate gallery table
-$query=$modx->db->query("DESC $mg->pics_tbl");
-if(!$query) {
+$tblprefix = $modx->db->config['table_prefix'];
+$rs = $modx->db->query("SHOW TABLES like '{$tblprefix}maxigallery'");
+if($modx->db->getRecordCount($rs)!=1)
+{
 	if($mg->createTable()){
 		$descvalid = 1; 
 		$custposvalid = 1;
@@ -270,22 +272,23 @@ if(!$query) {
 		$output = $mg->strings['database_error'];
 		return;
 	}
-} else {
-	if($mg->isDescValid($query)) {
-		$descvalid=1;
-	}
-	if($mg->isPosValid($query)) {
-		$custposvalid=1;
-	}
-	if(!$mg->isOwnIDValid($query)) {
-		$output = $mg->strings['database_error_field'].'own_id';
-		return;
-	}
-	if(!$mg->isHideValid($query)) {
-		$output = $mg->strings['database_error_ownid'].'hide';
-		return;
-	}	
 }
+
+$query=$modx->db->query("DESC $mg->pics_tbl");
+if($mg->isDescValid($query)) {
+	$descvalid=1;
+}
+if($mg->isPosValid($query)) {
+	$custposvalid=1;
+}
+if(!$mg->isOwnIDValid($query)) {
+	$output = $mg->strings['database_error_field'].'own_id';
+	return;
+}
+if(!$mg->isHideValid($query)) {
+	$output = $mg->strings['database_error_ownid'].'hide';
+	return;
+}	
 
 //if dragsort requested, clear output buffers and output dragsort html
 if ((isset($_REQUEST['dragsort']) && $_REQUEST['dragsort'] == 1) 
