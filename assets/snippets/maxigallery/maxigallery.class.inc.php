@@ -617,18 +617,17 @@ class maxiGallery {
 		}
 		$slidebox_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slidebox/prototype.js';
 		$slidebox_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slidebox/slidebox.js';
-
 		//lightbox scripts
 		$lightboxv2_css_link = '<link rel="stylesheet" href="' . $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/css/lightbox.css" type="text/css" media="screen" />';
-		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_setup.js'; 
+		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/jquery-1.7.2.min.js'; 
+		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/jquery-ui-1.8.18.custom.min.js'; 
+		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/jquery.smooth-scroll.min.js'; 
 		$lightboxv2_settings = MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_lang_'.$this->mgconfig['lang'].'.js';
 		if(file_exists($modx->config['base_path'].$lightboxv2_settings)){
 			$lightboxv2_script_link2 = $modx->config['base_url'] . $lightboxv2_settings;
 		}else{
 			$lightboxv2_script_link2 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_lang_en.js';
 		}
-		$lightboxv2_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/prototype.js';
-		$lightboxv2_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/scriptaculous.js?load=effects';
 		$lightboxv2_script_link5 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox.js';
 		
 		//slimbox scripts
