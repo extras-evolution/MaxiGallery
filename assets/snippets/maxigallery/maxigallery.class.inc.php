@@ -239,7 +239,7 @@ class maxiGallery {
 			}
 		}
 		if($resize){
-			$sizes = split('x', $max_thumb_size);
+			$sizes = explode('x', $max_thumb_size);
 			if (count($sizes) > 1) {
 				$thumb->size($sizes[0], $sizes[1]);
 			} else {
