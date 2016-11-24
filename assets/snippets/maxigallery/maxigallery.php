@@ -24,6 +24,8 @@ if (file_exists($configFile)) {
 //language default value
 switch($modx->config['manager_language'])
 {
+	case 'russian-UTF8'   :
+	case 'russian'        : $lc = 'ru';break;
 	case 'danish'         : $lc = 'da';break;
 	case 'finnish'        : $lc = 'fi';break;
 	case 'italian'        : $lc = 'it';break;
