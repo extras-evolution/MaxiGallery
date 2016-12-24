@@ -124,6 +124,27 @@ class maxiGallery {
 		return false;
 	}	
 	//-------------------------------------------------------------------------------------------------
+	//added by Bruno 
+	//function to check database table for custom fields
+	function checkCustomFields(){
+		global $modx;
+		if ($this->mgconfig['customFields'] !== '') {
+			$columns = $modx->db->query("SELECT * FROM ".$this->pics_tbl);
+			$columnNames = $modx->db->getColumnNames($columns);
+			foreach ($this->mgconfig['customFields'] as $field) {
+				if (!in_array($field, $columnNames)) {
+					$addColumn = $modx->db->query("ALTER TABLE ".$this->pics_tbl." ADD (`".$field."` VARCHAR(255) NOT NULL)");
+					if (!$addColumn) {
+						return false;
+					}
+				}
+			}
+		}
+       return true;  
+	}	
+
+	//-------------------------------------------------------------------------------------------------
+	//end add by Bruno
 	//function to check access permissions, fix provided by TobyL
 	function checkPermissions($userid,$docid){
 		global $modx;
@@ -152,6 +173,8 @@ class maxiGallery {
 	//-------------------------------------------------------------------------------------------------
 	//function to create the pics
 	function createthumb($filename,$filetype,$path_to_gal,$prefix="",$resize=true) {
+		global $modx;
+		
 		if($prefix == "tn_"){
 			$use_watermark = $this->mgconfig['thumb_use_watermark'];
 			$max_thumb_size = $this->mgconfig['max_thumb_size'];
@@ -322,6 +345,9 @@ class maxiGallery {
 			
 			unset($im);
 		}
+		if($_REQUEST['action']!='gallery_synch' || $prefix != "") {
+			chmod($modx->config['base_path'].$path_to_gal.$prefix.$filename, octdec($this->mgconfig['chmod_files']));
+		}
 	}
 	//-------------------------------------------------------------------------------------------------
 	//function to create the gallery xml for slidebox
@@ -332,7 +358,7 @@ class maxiGallery {
 		$totalpics = $modx->db->getRecordCount($res);
 		if($totalpics>0){
 			// create a new XML document
-			$xmlstr = '<?xml version="1.0" encoding="'.$modx->config['etomite_charset'].'"?>'."\n";
+			$xmlstr = '<?xml version="1.0" encoding="'.$this->mgconfig['htmlentities_charset'].'"?>'."\n";
 			$xmlstr .= '<response>'."\n";
 			// process pics
 			$i = 1;
@@ -351,7 +377,7 @@ class maxiGallery {
 			$fp = fopen($this->path_to_gal."gallery.xml", "w");
 			fwrite($fp, $xmlstr);
 			fclose($fp);
-			chmod($this->path_to_gal."gallery.xml",0666);
+			chmod($this->path_to_gal."gallery.xml", octdec($this->mgconfig['chmod_files']));
 		}else if(file_exists($this->path_to_gal."gallery.xml")){ //if gallery xml exists but not in use, delete it
 			unlink($this->path_to_gal."gallery.xml");
 		}
@@ -397,6 +423,7 @@ class maxiGallery {
 	//function to figure out what pics to do from the file and do them
 	function handlePics($name, $type){
 		global $modx;
+		$retStr = "";
 		$pic_date = "NOW()";
 		//read EXIF information
 		if($type == "jpg"){
@@ -419,10 +446,10 @@ class maxiGallery {
 				if($this->mgconfig['max_pic_size']>0 && ($imagesize[0]>$this->mgconfig['max_pic_size'] || $imagesize[1]>$this->mgconfig['max_pic_size'])) {
 					if($this->mgconfig['max_big_size']>0 && ($imagesize[0]>$this->mgconfig['max_big_size'] || $imagesize[1]>$this->mgconfig['max_big_size'])){
 						//if picture size is bigger than big pic size, resize
-						$this->createthumb($name,$type,$this->path_to_gal,"big_");
+						$retStr = $this->createthumb($name,$type,$this->path_to_gal,"big_");
 					}else if($this->mgconfig['big_use_watermark'] || $this->mgconfig['big_use_dropshadow'] || $this->mgconfig['big_use_imagemask']){
 						//if not bigger, but image still needs to be changed
-						$this->createthumb($name,$type,$this->path_to_gal,"big_",false);
+						$retStr = $this->createthumb($name,$type,$this->path_to_gal,"big_",false);
 					}else{
 						//else just copy
 						copy($this->path_to_gal.$name, $this->path_to_gal."big_".$name);
@@ -430,20 +457,29 @@ class maxiGallery {
 				}
 			}else if($this->mgconfig['big_use_watermark'] || $this->mgconfig['big_use_dropshadow'] || $this->mgconfig['big_use_imagemask']){
 				//if max size is not set for the big pics, but image still needs to be changed
-				$this->createthumb($name,$type,$this->path_to_gal,"big_",false);		
+				$retStr = $this->createthumb($name,$type,$this->path_to_gal,"big_",false);		
 			}else{
 				//else just copy
 				copy($this->path_to_gal.$name, $this->path_to_gal."big_".$name);
 			}
+			if ($retStr != "") {
+				return $retStr;
+			}
 		}
 		//create thumbnail
-		$this->createthumb($name,$type,$this->path_to_gal,"tn_");
+		$retStr = $this->createthumb($name,$type,$this->path_to_gal,"tn_");
+		if ($retStr != "") {
+			return $retStr;
+		}
 		//create normal 
 		if($this->mgconfig['max_pic_size']>0 && ($imagesize[0]>$this->mgconfig['max_pic_size'] || $imagesize[1]>$this->mgconfig['max_pic_size'])) {
-			$this->createthumb($name,$type,$this->path_to_gal,"");
+			$retStr = $this->createthumb($name,$type,$this->path_to_gal,"");
 		}else if($this->mgconfig['pic_use_watermark'] || $this->mgconfig['pic_use_dropshadow'] || $this->mgconfig['pic_use_imagemask']){
 			//if max image size is not reached, but the image needs some changing to be done
-			$this->createthumb($name,$type,$this->path_to_gal,"",false);
+			$retStr = $this->createthumb($name,$type,$this->path_to_gal,"",false);
+		}
+		if ($retStr != "") {
+			return $retStr;
 		}
 		if($modx->getLoginUserID()!="" && $modx->getLoginUserType()=='web'){ //if web user is posting picture, put owner id
 			$rs1=$modx->db->query("INSERT INTO " . $this->pics_tbl . "(id, gal_id, filename, title, date, own_id) VALUES(NULL,'" . $this->pageinfo['id'] . "','" . $name . "',''," . $pic_date . ",'".$modx->getLoginUserID()."')");
@@ -455,12 +491,21 @@ class maxiGallery {
 	//function to handle uploaded file
 	function handleFile($name, $current_pics_count=-1){
 		if(substr(strtolower($name),-4)==".jpg" || substr(strtolower($name),-5)==".jpeg") {
-			$this->handlePics($name, "jpeg");
+			$retStr = $this->handlePics($name, "jpeg");
+			if ($retStr != "") {
+				return $retStr;
+			}
 		}else if(substr(strtolower($name),-4)==".png"){
-			$this->handlePics($name, "png");
+			$retStr = $this->handlePics($name, "png");
+			if ($retStr != "") {
+				return $retStr;
+			}
 		}else if(substr(strtolower($name),-4)==".gif"){
 			if(function_exists('imagecreatefromgif')){
-				$this->handlePics($name, "gif");
+				$retStr = $this->handlePics($name, "gif");
+				if ($retStr != "") {
+					return $retStr;
+				}
 			}else{
 				unlink($this->path_to_gal.$name);
 				return $this->strings['gif_not_supported'];
@@ -516,10 +561,11 @@ class maxiGallery {
 			//check for existing filenames
 			$ni = 1;
 			$base = $name;
-			while (file_exists($this->path_to_gal.$name)) { 
-				$name=$ni.$base; 
+			while (file_exists($this->path_to_gal.$base)) { 
+				$base=$ni.$name; 
 				$ni++;
 			}
+			$name = $base;
 		}
 		return $name;
 	}
@@ -529,7 +575,7 @@ class maxiGallery {
 		global $modx;
 		$smoothgallery_css_str = '
 			<style type="text/css">
-			#myGallery'.$smoothGalleryId.'
+			#myGallery'.$smoothGalleryId.', #myGallerySet'.$smoothGalleryId.'
 			{
 			width: '.$this->mgconfig['smoothgallery_width'].'px;
 			height: '.$this->mgconfig['smoothgallery_height'].'px;
@@ -537,27 +583,71 @@ class maxiGallery {
 			display: none;
 			}
 			</style>';
+			
 		$smoothgallery_script_str = '
 			<script type="text/javascript">
 			function startGallery() {
-			var myGallery = new gallery($(\'myGallery'.$smoothGalleryId.'\'), {
+			';
+		if ($this->mgconfig['childembedtype'] == "smoothgallery") {
+			$smoothgallery_script_str .= 'var myGallery = new gallerySet($(\'myGallerySet'.$smoothGalleryId.'\'), {';
+		}
+		if ($this->mgconfig['embedtype'] == "smoothgallery") {
+			$smoothgallery_script_str .= 'var myGallery = new gallery($(\'myGallery'.$smoothGalleryId.'\'), {';
+		}
+		$smoothgallery_script_str .= '
 			showArrows: '.$this->mgconfig['smoothgallery_showArrows'].', 
 			showCarousel: '.$this->mgconfig['smoothgallery_showCarousel'].',
 			showInfopane: '.$this->mgconfig['smoothgallery_showInfopane'].', 
-			thumbHeight: '.$this->mgconfig['smoothgallery_thumbHeight'].', 
-			thumbWidth: '.$this->mgconfig['smoothgallery_thumbWidth'].', 
-			thumbSpacing: '.$this->mgconfig['smoothgallery_thumbSpacing'].', 
 			embedLinks: '.$this->mgconfig['smoothgallery_embedLinks'].', 
 			fadeDuration: '.$this->mgconfig['smoothgallery_fadeDuration'].', 
 			timed: '.$this->mgconfig['smoothgallery_timed'].', 
 			delay: '.$this->mgconfig['smoothgallery_delay'].', 
 			preloader: '.$this->mgconfig['smoothgallery_preloader'].', 
-			slideInfoZoneOpacity: '.$this->mgconfig['smoothgallery_slideInfoZoneOpacity'].', 
+			preloaderImage: '.$this->mgconfig['smoothgallery_preloaderImage'].',
+			preloaderErrorImage: '.$this->mgconfig['smoothgallery_preloaderErrorImage'].',
+			populateFrom: '.$this->mgconfig['smoothgallery_populateFrom'].',
+			populateData: '.$this->mgconfig['smoothgallery_populateData'].',
+			destroyAfterPopulate: '.$this->mgconfig['smoothgallery_destroyAfterPopulate'].',
+			elementSelector: \''.$this->mgconfig['smoothgallery_elementSelector'].'\',
+			titleSelector: \''.$this->mgconfig['smoothgallery_titleSelector'].'\',
+			subtitleSelector: \''.$this->mgconfig['smoothgallery_subtitleSelector'].'\',
+			linkSelector: \''.$this->mgconfig['smoothgallery_linkSelector'].'\',
+			imageSelector: \''.$this->mgconfig['smoothgallery_imageSelector'].'\',
+			thumbnailSelector: \''.$this->mgconfig['smoothgallery_thumbnailSelector'].'\',
+			defaultTransition: \''.$this->mgconfig['smoothgallery_defaultTransition'].'\',
+			slideInfoZoneOpacity: '.$this->mgconfig['smoothgallery_slideInfoZoneOpacity'].',
+			slideInfoZoneSlide: '.$this->mgconfig['smoothgallery_slideInfoZoneSlide'].',
 			carouselMinimizedOpacity: '.$this->mgconfig['smoothgallery_carouselMinimizedOpacity'].', 
 			carouselMinimizedHeight: '.$this->mgconfig['smoothgallery_carouselMinimizedHeight'].', 
 			carouselMaximizedOpacity: '.$this->mgconfig['smoothgallery_carouselMaximizedOpacity'].', 
-			textShowCarousel: \''.$this->mgconfig['smoothgallery_textShowCarousel'].'\' 
+			thumbHeight: '.$this->mgconfig['smoothgallery_thumbHeight'].', 
+			thumbWidth: '.$this->mgconfig['smoothgallery_thumbWidth'].', 
+			thumbSpacing: '.$this->mgconfig['smoothgallery_thumbSpacing'].', 
+			thumbIdleOpacity: '.$this->mgconfig['smoothgallery_thumbIdleOpacity'].',
+			textShowCarousel: \''.$this->mgconfig['smoothgallery_textShowCarousel'].'\', 
+			showCarouselLabel: '.$this->mgconfig['smoothgallery_showCarouselLabel'].',
+			thumbCloseCarousel: '.$this->mgconfig['smoothgallery_thumbCloseCarousel'].',
+			useExternalCarousel: '.$this->mgconfig['smoothgallery_useExternalCarousel'].',
+			carouselElement: \''.$this->mgconfig['smoothgallery_carouselElement'].'\',
+			carouselHorizontal: '.$this->mgconfig['smoothgallery_carouselHorizontal'].',
+			activateCarouselScroller: '.$this->mgconfig['smoothgallery_activateCarouselScroller'].',
+			carouselPreloader: '.$this->mgconfig['smoothgallery_carouselPreloader'].',
+			textPreloadingCarousel: \''.$this->mgconfig['smoothgallery_textPreloadingCarousel'].'\',
+			baseClass: \''.$this->mgconfig['smoothgallery_baseClass'].'\',
+			withArrowsClass: \''.$this->mgconfig['smoothgallery_withArrowsClass'].'\',
+			useHistoryManager: '.$this->mgconfig['smoothgallery_useHistoryManager'].',
+			customHistoryKey: '.$this->mgconfig['smoothgallery_customHistoryKey'].',
+			galleryTitleSelector: \''.$this->mgconfig['smoothgallery_galleryTitleSelector'].'\',
+			textGallerySelector: \''.$this->mgconfig['smoothgallery_textGallerySelector'].'\',
+			textShowGallerySelector: \''.$this->mgconfig['smoothgallery_textShowGallerySelector'].'\',
+			textGalleryInfo: \''.$this->mgconfig['smoothgallery_textGalleryInfo'].'\',
+			startWithSelector: '.$this->mgconfig['smoothgallery_startWithSelector'].'
 			});
+			';
+		if ($this->mgconfig['smoothgallery_useHistoryManager'] == 'true') {
+			$smoothgallery_script_str .= 'HistoryManager.start();';
+		}
+		$smoothgallery_script_str .= '
 			}
 			window.onDomReady(startGallery);
 			</script>';
@@ -617,17 +707,18 @@ class maxiGallery {
 		}
 		$slidebox_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slidebox/prototype.js';
 		$slidebox_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slidebox/slidebox.js';
+
 		//lightbox scripts
 		$lightboxv2_css_link = '<link rel="stylesheet" href="' . $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/css/lightbox.css" type="text/css" media="screen" />';
-		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/jquery-1.7.2.min.js'; 
-		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/jquery-ui-1.8.18.custom.min.js'; 
-		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/jquery.smooth-scroll.min.js'; 
+		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_setup.js'; 
 		$lightboxv2_settings = MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_lang_'.$this->mgconfig['lang'].'.js';
 		if(file_exists($modx->config['base_path'].$lightboxv2_settings)){
 			$lightboxv2_script_link2 = $modx->config['base_url'] . $lightboxv2_settings;
 		}else{
 			$lightboxv2_script_link2 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_lang_en.js';
 		}
+		$lightboxv2_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/prototype.js';
+		$lightboxv2_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/scriptaculous.js?load=effects';
 		$lightboxv2_script_link5 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox.js';
 		
 		//slimbox scripts
@@ -643,9 +734,11 @@ class maxiGallery {
 		
 		//smoothgallery scripts
 		$smoothgallery_css_link = '<link rel="stylesheet" href="' . $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/css/jd.gallery.css" type="text/css" media="screen" />';
-		$smoothgallery_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/mootools.js'; 
+		$smoothgallery_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/mootools.v1.11.js'; 
 		$smoothgallery_script_link2 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/jd.gallery.js';
-		
+		$smoothgallery_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/jd.gallery.transitions.js';
+		$smoothgallery_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/jd.gallery.set.js';
+		$smoothgallery_script_link5 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/HistoryManager.js';
 				
 		//custom scripts
 		$popup_script = $modx->config['base_url'] . MAXIGALLERY_PATH . 'js/popup.js';
@@ -712,6 +805,13 @@ class maxiGallery {
 				$modx->regClientStartupScript($smoothgallery_script_link1);
 			}
 			$modx->regClientStartupScript($smoothgallery_script_link2);
+			$modx->regClientStartupScript($smoothgallery_script_link3);
+			if ($this->mgconfig['childembedtype'] == "smoothgallery") {
+				$modx->regClientStartupScript($smoothgallery_script_link4); 
+			}
+			if($this->mgconfig['smoothgallery_useHistoryManager'] == 'true') {
+				$modx->regClientStartupScript($smoothgallery_script_link5);
+			}
 		}
 		
 		$this->regSnippetScriptsAndCSS();
@@ -749,6 +849,10 @@ class maxiGallery {
 		
 		$index = array_search($modx->documentIdentifier, $kids);
 		
+		if(count($kids) == 1 && $kids[0] == $modx->documentIdentifier) {
+			unset($kids[0]);
+		}
+		
 		if ($index) {
 			unset($kids[$index]);
 		}
@@ -756,7 +860,21 @@ class maxiGallery {
 		//remove id's that don't have gallery
 		$kids = array_intersect($kids, $childgalleryIds);
 		
-		$resources = $modx->getDocuments($kids, $showPublishedOnly, 0, "*", '', $sortby, $sortdir);
+		//check if sorting is done by TV name
+		$sortByTV = false;
+		if (substr($sortby, 0, 2)=="tv") {
+			$sortByTV = substr($sortby, 2);
+			$sortby = "createdon";
+		}
+		
+		//if random order, use mysql RAND() 
+		if ($sortby == "random") {
+			$order = "RAND()";
+		}else{
+			$order = $sortby;
+		}
+		
+		$resources = $modx->getDocuments($kids, $showPublishedOnly, 0, "*", '', $order, $sortdir);
 		
 		if ($limit != 0) {
 			$resources = array_slice($resources, 0, $limit);
@@ -784,8 +902,18 @@ class maxiGallery {
 				}
 			}
 		}
+		
+		if ($sortByTV) {
+			foreach ($resources as $resource) {
+    			$column[] = $resource['tv.'.$sortByTV];
+			}
+			if (strtolower($sortdir) == "desc") {
+				array_multisort($column, SORT_DESC, $resources);
+			} else {
+				array_multisort($column, SORT_ASC, $resources);
+			}
+		}
 		return $resources;
-
 	}
 	//-------------------------------------------------------------------------------------------------	
 	//function to get all childs by Jason Coward

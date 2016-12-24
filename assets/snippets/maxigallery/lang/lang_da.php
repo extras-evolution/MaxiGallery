@@ -48,4 +48,7 @@ $strings['cancel'] = "Fortryd";
 $strings['number_allowed'] = "Tilladt antal billeder at uploade";
 $strings['gallery_resynched'] = "<b>Gallerimappen er blevet synkroniseret.</b>";
 $strings['resynch'] = "Synkroniser galleri";
+$strings['loading'] = "Loading...";
+$strings['galleries'] = "Galleries";
+$strings['other_galleries'] = "Other Galleries";
 ?>

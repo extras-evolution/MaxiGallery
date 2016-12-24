@@ -1,0 +1,34 @@
+[+maxigallery.childembedtype:is=`smoothgallery`:then=` 
+	<div class="imageElement">
+	<h3>[+maxigallery.picture.title:htmlent+]</h3>
+	<p>[+maxigallery.picture.descr:htmlent+]</p>
+	<a href="[+maxigallery.picture_link_url+]" title="[+maxigallery.strings.click_to_zoom+]" class="open"></a>
+	<img src="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" class="full" />
+	<img src="[(base_url)][+maxigallery.path_to_gal+]tn_[+maxigallery.picture.filename+]" class="thumbnail" />
+	</div>
+`+]
+
+[+maxigallery.childembedtype:isnot=`smoothgallery`:then=`
+ 
+[+maxigallery.childembedtype:is=`slidebox`:then=` 
+
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox_[+maxigallery.path_to_gal+]gallery" style="display:none;">
+
+`+]
+
+[+maxigallery.childembedtype:is=`lightboxv2`:then=` 
+
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[image[+maxigallery.pageinfo.id+]set]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]" style="display:none;">
+
+`+]
+
+[+maxigallery.childembedtype:is=`slimbox`:then=` 
+
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[image[+maxigallery.pageinfo.id+]set]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]" style="display:none;">
+
+`+]
+
+		&nbsp;
+	
+	</a>
+`+]

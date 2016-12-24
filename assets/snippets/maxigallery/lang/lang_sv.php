@@ -48,4 +48,7 @@ $strings['cancel'] = "Avbryt";
 $strings['number_allowed'] = "Antal till&aring;tna bilder per galleri";
 $strings['gallery_resynched'] = "<b>Gallery-mappen har synkroniserats om.</b>";
 $strings['resynch'] = "Synkronisera om Gallery-mappen";
+$strings['loading'] = "Laddar...";
+$strings['galleries'] = "Galleries";
+$strings['other_galleries'] = "Other Galleries";
 ?>

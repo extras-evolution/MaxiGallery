@@ -46,6 +46,11 @@ $strings['sort_pictures'] = "J&auml;rjest&auml; kuvat";
 $strings['dragdesc'] = "Siirr&auml; kuvat hiirell&auml; vet&auml;m&auml;ll&auml; siihen j&auml;rjestykseen, jossa haluat ne n&auml;ytett&auml;v&auml;n.";
 $strings['cancel'] = "Peruuta";
 $strings['number_allowed'] = "J&auml;ljell&auml; olevat kuvapaikat";
-$strings['gallery_resynched'] = "<b>Kuvagalleriakansio synkronoitu.</b>";
+$strings['gallery_resynched'] = "<br /><b>Kuvagalleriakansio synkronoitu.</b>";
 $strings['resynch'] = "Synkronoi kuvagalleria";
+$strings['loading'] = "Ladataan...";
+$strings['galleries'] = "Kuvagalleriat";
+$strings['other_galleries'] = "Muut Kuvagalleriat";
+$strings['could_not_upload'] = "Ei voitu kopioida tiedostoa:";
+$strings['pictures_removed'] = "<br /><b>Puuttuvat kuvat poistettu kuvagalleriasta.</b>";
 ?>

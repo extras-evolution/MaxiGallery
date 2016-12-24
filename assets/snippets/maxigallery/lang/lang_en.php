@@ -46,6 +46,11 @@ $strings['sort_pictures'] = "Sort pictures";
 $strings['dragdesc'] = "Drag the images into the order you want them to be displayed by MaxiGallery.";
 $strings['cancel'] = "Cancel";
 $strings['number_allowed'] = "Number of pictures allowed to upload";
-$strings['gallery_resynched'] = "<b>Gallery folder has been resynched.</b>";
+$strings['gallery_resynched'] = "<br /><b>Gallery folder has been resynched.</b>";
 $strings['resynch'] = "Resynch Gallery";
+$strings['loading'] = "Loading...";
+$strings['galleries'] = "Galleries";
+$strings['other_galleries'] = "Other Galleries";
+$strings['could_not_upload'] = "Could not upload the following file:";
+$strings['pictures_removed'] = "<br /><b>Removed missing pictures successfully from the gallery.</b>";
 ?>

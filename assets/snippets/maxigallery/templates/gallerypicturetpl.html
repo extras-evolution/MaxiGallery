@@ -19,19 +19,19 @@
 
 [+maxigallery.embedtype:is=`lightboxv2`:then=` 
 
-	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[maxigallery]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[image[+maxigallery.pageinfo.id+]set]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
 
 `+]
 
 [+maxigallery.embedtype:is=`slimbox`:then=` 
 
-	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[maxigallery]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[image[+maxigallery.pageinfo.id+]set]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
 
 `+]
 
 [+maxigallery.embedtype:is=`popup`:then=` 
 
-	<a href="javascript:void(0);" onClick="javascript:openWindow('[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]','[+maxigallery.picture.title:htmlent+]',[+maxigallery.picture_height_normal+],[+maxigallery.picture_width_normal+],'gallery');">
+	<a href="javascript:void(0);" onclick="javascript:openWindow('[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]','[+maxigallery.picture.title:htmlent+]',[+maxigallery.picture_height_normal+],[+maxigallery.picture_width_normal+],'gallery');">
 
 `+]
 
@@ -41,7 +41,7 @@
 
 `+]
 
-[+maxigallery.embedtype:is=``:then=`
+[+maxigallery.embedtype:is=`normal`:then=`
 	
 	<a href="[+maxigallery.picture_link_url+]">
 

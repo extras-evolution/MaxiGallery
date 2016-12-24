@@ -73,7 +73,7 @@ $mgconfig['order_direction'] = (isset($order_direction)) ? $order_direction : "D
 $mgconfig['gtable'] = (isset($gtable)) ? $gtable : "maxigallery"; // [ text ] 
 $mgconfig['display'] = (isset($display)) ? $display : "normal"; // [ normal | embedded | childgalleries | pictureview ]
 $mgconfig['childgalleries_level_limit'] = (isset($childgalleries_level_limit)) ? $childgalleries_level_limit : 0; // [ number ]
-$mgconfig['embedtype'] = (isset($embedtype)) ? $embedtype : ""; // [ slidebox | lightboxv2 | slimbox | smoothgallery | popup | external ]
+$mgconfig['embedtype'] = (isset($embedtype)) ? $embedtype : "normal"; // [ normal | slidebox | lightboxv2 | slimbox | smoothgallery | popup | external ]
 $mgconfig['max_thumb_size'] = (isset($max_thumb_size)) ? $max_thumb_size : 130; // [ number for autosize | widthxheight to set biggest width and height for thumbnail ] 
 $mgconfig['max_pic_size'] = (isset($max_pic_size)) ? $max_pic_size : 450; // [ number for autosize | widthxheight to set biggest width and height for thumbnail | zero for unlimited size ] 
 $mgconfig['max_pic_number'] = (isset($max_pic_number)) ? $max_pic_number : 0; // [ number | 0 for unlimited number ] 
@@ -145,6 +145,7 @@ $mgconfig['manageUploadTpl'] = (isset($manageUploadTpl)) ? $manageUploadTpl : '@
 $mgconfig['galleryOuterTpl'] = (isset($galleryOuterTpl)) ? $galleryOuterTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/galleryoutertpl.html'; // [ path | chunkname | text ]
 $mgconfig['galleryPictureTpl'] = (isset($galleryPictureTpl)) ? $galleryPictureTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/gallerypicturetpl.html'; // [ path | chunkname | text ]
 $mgconfig['childgalleryTpl'] = (isset($childgalleryTpl)) ? $childgalleryTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/childgallerytpl.html'; // [ path | chunkname | text ]
+$mgconfig['childgalleryPictureTpl'] = (isset($childgalleryPictureTpl)) ? $childgalleryPictureTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/childgallerypicturetpl.html'; // [ path | chunkname | text ]
 $mgconfig['pictureTpl'] = (isset($pictureTpl)) ? $pictureTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/picturetpl.html'; // [ path | chunkname | text ]
 $mgconfig['clearerTpl'] = (isset($clearerTpl)) ? $clearerTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/clearertpl.html'; // [ path | chunkname | text ]
 $mgconfig['pageNumberTpl'] = (isset($pageNumberTpl)) ? $pageNumberTpl : '@FILE:'.MAXIGALLERY_PATH.'templates/pagenumbertpl.html'; // [ path | chunkname | text ]
@@ -157,19 +158,51 @@ $mgconfig['smoothgallery_height'] = (isset($smoothgallery_height)) ? $smoothgall
 $mgconfig['smoothgallery_showArrows'] = (isset($smoothgallery_showArrows)) ? $smoothgallery_showArrows : "true"; // [ as string, true | false ]
 $mgconfig['smoothgallery_showCarousel'] = (isset($smoothgallery_showCarousel)) ? $smoothgallery_showCarousel : "true"; // [ as string, true | false ]
 $mgconfig['smoothgallery_showInfopane'] = (isset($smoothgallery_showInfopane)) ? $smoothgallery_showInfopane : "true"; // [ as string, true | false ]
-$mgconfig['smoothgallery_thumbHeight'] = (isset($smoothgallery_thumbHeight)) ? $smoothgallery_thumbHeight : 75; // [ number ]
-$mgconfig['smoothgallery_thumbWidth'] = (isset($smoothgallery_thumbWidth)) ? $smoothgallery_thumbWidth : 100; // [ number ]
-$mgconfig['smoothgallery_thumbSpacing'] = (isset($smoothgallery_thumbSpacing)) ? $smoothgallery_thumbSpacing : 10; // [ number ]
 $mgconfig['smoothgallery_embedLinks'] = (isset($smoothgallery_embedLinks)) ? $smoothgallery_embedLinks : "true"; // [ as string, true | false ]
-$mgconfig['smoothgallery_fadeDuration'] = (isset($smoothgallery_fadeDuration)) ? $smoothgallery_fadeDuration : 500; // [ number ]
+$mgconfig['smoothgallery_fadeDuration'] = (isset($smoothgallery_fadeDuration)) ? $smoothgallery_fadeDuration : "500"; // [ number ]
 $mgconfig['smoothgallery_timed'] = (isset($smoothgallery_timed)) ? $smoothgallery_timed : "false"; // [ as string, true | false ]
-$mgconfig['smoothgallery_delay'] = (isset($smoothgallery_delay)) ? $smoothgallery_delay : 9000; // [ number ]
+$mgconfig['smoothgallery_delay'] = (isset($smoothgallery_delay)) ? $smoothgallery_delay : "9000"; // [ number ]
 $mgconfig['smoothgallery_preloader'] = (isset($smoothgallery_preloader)) ? $smoothgallery_preloader : "true"; // [ as string, true | false ]
-$mgconfig['smoothgallery_slideInfoZoneOpacity'] = (isset($smoothgallery_slideInfoZoneOpacity)) ? $smoothgallery_slideInfoZoneOpacity : 0.7; // [ number ]
-$mgconfig['smoothgallery_carouselMinimizedOpacity'] = (isset($smoothgallery_carouselMinimizedOpacity)) ? $smoothgallery_carouselMinimizedOpacity : 0.4; // [ number ]
-$mgconfig['smoothgallery_carouselMinimizedHeight'] = (isset($smoothgallery_carouselMinimizedHeight)) ? $smoothgallery_carouselMinimizedHeight : 20; // [ number ]
-$mgconfig['smoothgallery_carouselMaximizedOpacity'] = (isset($smoothgallery_carouselMaximizedOpacity)) ? $smoothgallery_carouselMaximizedOpacity : 0.7; // [ number ]
-$mgconfig['smoothgallery_textShowCarousel'] = (isset($smoothgallery_textShowCarousel)) ? $smoothgallery_textShowCarousel : $strings['pictures'];
+$mgconfig['smoothgallery_preloaderImage'] = (isset($smoothgallery_preloaderImage)) ? $smoothgallery_preloaderImage : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_preloaderErrorImage'] = (isset($smoothgallery_preloaderErrorImage)) ? $smoothgallery_preloaderErrorImage : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_populateFrom'] = (isset($smoothgallery_populateFrom)) ? $smoothgallery_populateFrom : "false"; // [ text ]
+$mgconfig['smoothgallery_populateData'] = (isset($smoothgallery_populateData)) ? $smoothgallery_populateData : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_destroyAfterPopulate'] = (isset($smoothgallery_destroyAfterPopulate)) ? $smoothgallery_destroyAfterPopulate : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_elementSelector'] = (isset($smoothgallery_elementSelector)) ? $smoothgallery_elementSelector : "div.imageElement"; // [ text ]
+$mgconfig['smoothgallery_titleSelector'] = (isset($smoothgallery_titleSelector)) ? $smoothgallery_titleSelector : "h3"; // [ text ]
+$mgconfig['smoothgallery_subtitleSelector'] = (isset($smoothgallery_subtitleSelector)) ? $smoothgallery_subtitleSelector : "p"; // [ text ]
+$mgconfig['smoothgallery_linkSelector'] = (isset($smoothgallery_linkSelector)) ? $smoothgallery_linkSelector : "a.open"; // [ text ]
+$mgconfig['smoothgallery_imageSelector'] = (isset($smoothgallery_imageSelector)) ? $smoothgallery_imageSelector : "img.full"; // [ text ]
+$mgconfig['smoothgallery_thumbnailSelector'] = (isset($smoothgallery_thumbnailSelector)) ? $smoothgallery_thumbnailSelector : "img.thumbnail"; // [ text ]
+$mgconfig['smoothgallery_defaultTransition'] = (isset($smoothgallery_defaultTransition)) ? $smoothgallery_defaultTransition : "fade"; // [ text ]
+$mgconfig['smoothgallery_slideInfoZoneOpacity'] = (isset($smoothgallery_slideInfoZoneOpacity)) ? $smoothgallery_slideInfoZoneOpacity : "0.7"; // [ number ]
+$mgconfig['smoothgallery_slideInfoZoneSlide'] = (isset($smoothgallery_slideInfoZoneSlide)) ? $smoothgallery_slideInfoZoneSlide : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_carouselMinimizedOpacity'] = (isset($smoothgallery_carouselMinimizedOpacity)) ? $smoothgallery_carouselMinimizedOpacity : "0.4"; // [ number ]
+$mgconfig['smoothgallery_carouselMinimizedHeight'] = (isset($smoothgallery_carouselMinimizedHeight)) ? $smoothgallery_carouselMinimizedHeight : "20"; // [ number ]
+$mgconfig['smoothgallery_carouselMaximizedOpacity'] = (isset($smoothgallery_carouselMaximizedOpacity)) ? $smoothgallery_carouselMaximizedOpacity : "0.7"; // [ number ]
+$mgconfig['smoothgallery_thumbHeight'] = (isset($smoothgallery_thumbHeight)) ? $smoothgallery_thumbHeight : "75"; // [ number ]
+$mgconfig['smoothgallery_thumbWidth'] = (isset($smoothgallery_thumbWidth)) ? $smoothgallery_thumbWidth : "100"; // [ number ]
+$mgconfig['smoothgallery_thumbSpacing'] = (isset($smoothgallery_thumbSpacing)) ? $smoothgallery_thumbSpacing : "10"; // [ number ]
+$mgconfig['smoothgallery_thumbIdleOpacity'] = (isset($smoothgallery_thumbIdleOpacity)) ? $smoothgallery_thumbIdleOpacity : "0.2"; // [ number ]
+$mgconfig['smoothgallery_textShowCarousel'] = (isset($smoothgallery_textShowCarousel)) ? $smoothgallery_textShowCarousel : '{0}/{1} '.$strings['pictures'];
+$mgconfig['smoothgallery_showCarouselLabel'] = (isset($smoothgallery_showCarouselLabel)) ? $smoothgallery_showCarouselLabel : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_thumbCloseCarousel'] = (isset($smoothgallery_thumbCloseCarousel)) ? $smoothgallery_thumbCloseCarousel : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_useExternalCarousel'] = (isset($smoothgallery_useExternalCarousel)) ? $smoothgallery_useExternalCarousel : "false"; // [ as string, true | false ]
+$mgconfig['smoothgallery_carouselElement'] = (isset($smoothgallery_carouselElement)) ? $smoothgallery_carouselElement : "false"; // [ text ]
+$mgconfig['smoothgallery_carouselHorizontal'] = (isset($smoothgallery_carouselHorizontal)) ? $smoothgallery_carouselHorizontal : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_activateCarouselScroller'] = (isset($smoothgallery_activateCarouselScroller)) ? $smoothgallery_activateCarouselScroller : "true"; // [ as string, true | false ]
+$mgconfig['smoothgallery_carouselPreloader'] = (isset($smoothgallery_carouselPreloader)) ? $smoothgallery_carouselPreloader : "false"; // [ as string, true | false ]
+$mgconfig['smoothgallery_textPreloadingCarousel'] = (isset($smoothgallery_textPreloadingCarousel)) ? $smoothgallery_textPreloadingCarousel : $strings['loading']; // [ text ]
+$mgconfig['smoothgallery_baseClass'] = (isset($smoothgallery_baseClass)) ? $smoothgallery_baseClass : 'jdGallery'; // [ text ]
+$mgconfig['smoothgallery_withArrowsClass'] = (isset($smoothgallery_withArrowsClass)) ? $smoothgallery_withArrowsClass : 'withArrows'; // [ text ]
+$mgconfig['smoothgallery_useHistoryManager'] = (isset($smoothgallery_useHistoryManager)) ? $smoothgallery_useHistoryManager : 'false'; // [ as string, true | false ]
+$mgconfig['smoothgallery_customHistoryKey'] = (isset($smoothgallery_customHistoryKey)) ? $smoothgallery_customHistoryKey : 'false'; // [ as string, true | false ]
+$mgconfig['smoothgallery_gallerySelector'] = (isset($smoothgallery_gallerySelector)) ? $smoothgallery_gallerySelector : 'div.galleryElement'; // [ text ]
+$mgconfig['smoothgallery_galleryTitleSelector'] = (isset($smoothgallery_galleryTitleSelector)) ? $smoothgallery_galleryTitleSelector : 'h2'; // [ text ]
+$mgconfig['smoothgallery_textGallerySelector'] = (isset($smoothgallery_textGallerySelector)) ? $smoothgallery_textGallerySelector : $strings['galleries']; // [ text ]
+$mgconfig['smoothgallery_textShowGallerySelector'] = (isset($smoothgallery_textShowGallerySelector)) ? $smoothgallery_textShowGallerySelector : $strings['other_galleries']; // [ text ]
+$mgconfig['smoothgallery_textGalleryInfo'] = (isset($smoothgallery_textGalleryInfo)) ? $smoothgallery_textGalleryInfo : '{0} '.$strings['pictures']; // [ text ]
+$mgconfig['smoothgallery_startWithSelector'] = (isset($smoothgallery_startWithSelector)) ? $smoothgallery_startWithSelector : 'true'; // [ as string, true | false ]
 $mgconfig['admin_webgroups'] = (isset($admin_webgroups)) ? explode(",",$admin_webgroups) : array(); // [ array ]
 $mgconfig['admin_webusers'] = (isset($admin_webusers)) ? explode(",",$admin_webusers) : array(); // [ array ]
 $mgconfig['childgalleries_order_by'] = (isset($childgalleries_order_by)) ? $childgalleries_order_by : "menuindex"; // [ MODx Document Object field(s) ] 
@@ -180,6 +213,7 @@ $mgconfig['offset'] = (isset($offset)) ? $offset : 0; // [ number ]
 $mgconfig['limit'] = (isset($limit)) ? $limit : 9999999; // [ number ]
 $mgconfig['random_filenames'] = (isset($random_filenames)) ? $random_filenames : false; // [ true | false ]
 $mgconfig['disable_js_libs'] = (isset($disable_js_libs)) ? $disable_js_libs : false; // [ true | false ]
+$mgconfig['disable_draggable_js'] = (isset($disable_draggable_js)) ? $disable_draggable_js : false; // [ true | false ]
 $mgconfig['use_ftp_commands'] = (isset($use_ftp_commands)) ? $use_ftp_commands : false; // [ true | false ]
 $mgconfig['ftp_server'] = (isset($ftp_server)) ? $ftp_server : "ftp.yourserver.fi"; // [ text ]
 $mgconfig['ftp_port'] = (isset($ftp_port)) ? $ftp_port : 21; // [ number ]
@@ -192,7 +226,12 @@ $mgconfig['pic_query_ids'] = (isset($pic_query_ids)) ? explode(",",$pic_query_id
 $mgconfig['pictureview_start_id'] = (isset($pictureview_start_id)) ? $pictureview_start_id : -1; // [ number ]
 $mgconfig['pictureview_start_pos'] = (isset($pictureview_start_pos)) ? $pictureview_start_pos : -1; // [ number ]
 $mgconfig['upload_field_count'] = (isset($upload_field_count)) ? $upload_field_count : 10; // [ number ]
-
+$mgconfig['htmlentities_charset'] = (isset($htmlentities_charset)) ? $htmlentities_charset : $modx->config['modx_charset']; // [ text ]
+$mgconfig['chmod_folders'] = (isset($chmod_folders)) ? $chmod_folders : '0777'; // [ text ]
+$mgconfig['chmod_files'] = (isset($chmod_files)) ? $chmod_files : '0666'; // [ text ]
+$mgconfig['childembedtype'] = (isset($childembedtype)) ? $childembedtype : 'normal'; // [ normal | slidebox | lightboxv2 | slimbox | smoothgallery ] 
+$mgconfig['customFields'] = (isset($customFields)) ? explode(",",$customFields) : array(); // [ array ] added by Bruno
+$mgconfig['query_mode_link_original'] = (isset($query_mode_link_original)) ? $query_mode_link_original : false; // [ true | false ]
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //-------------------------------------------------------------------------------------------------
@@ -240,6 +279,8 @@ if (!class_exists('mgChunkie')) {
 
 //Initialize variables
 $mg->pics_tbl = $modx->db->config['dbase'].".".$modx->db->config['table_prefix'].$mg->mgconfig['gtable'];
+
+$customfieldsvalid = 0;	
 $descvalid = 0; // assume descriptions not supported
 $custposvalid = 0; // assume that custom image ordering not supported
 if($mg->mgconfig['is_target']==true && $_REQUEST['gal_id']){
@@ -263,34 +304,36 @@ unset($_);
 $mg->path_to_gal=$path_to_galleries.$mg->pageinfo['id']."/";
 
 //validate gallery table
-$tblprefix = $modx->db->config['table_prefix'];
-$rs = $modx->db->query("SHOW TABLES like '{$tblprefix}maxigallery'");
-if($modx->db->getRecordCount($rs)!=1)
-{
-	if($mg->createTable()){
+$mgtbl = $modx->db->query("show tables like '".$modx->db->config['table_prefix'].$mg->mgconfig['gtable']."'");
+if($modx->db->getRecordCount($mgtbl) == 0) {
+	if($mg->createTable() && $mg->checkCustomFields()) {
 		$descvalid = 1; 
 		$custposvalid = 1;
+		$customfieldsvalid = 1;	// added by Bruno
 	}else{
 		$output = $mg->strings['database_error'];
 		return;
 	}
+} else {
+	$desc = $modx->db->query("DESC $mg->pics_tbl");
+	if($mg->isDescValid($desc)) {
+		$descvalid = 1;
+	}
+	if($mg->isPosValid($desc)) {
+		$custposvalid = 1;
+	}
+	if ($mg->checkCustomFields()) { // added by Bruno
+    	$customfieldsvalid = 1;	
+    }
+	if(!$mg->isOwnIDValid($desc)) {
+		$output = $mg->strings['database_error_field'].'own_id';
+		return;
+	}
+	if(!$mg->isHideValid($desc)) {
+		$output = $mg->strings['database_error_ownid'].'hide';
+		return;
+	}	
 }
-
-$query=$modx->db->query("DESC $mg->pics_tbl");
-if($mg->isDescValid($query)) {
-	$descvalid=1;
-}
-if($mg->isPosValid($query)) {
-	$custposvalid=1;
-}
-if(!$mg->isOwnIDValid($query)) {
-	$output = $mg->strings['database_error_field'].'own_id';
-	return;
-}
-if(!$mg->isHideValid($query)) {
-	$output = $mg->strings['database_error_ownid'].'hide';
-	return;
-}	
 
 //if dragsort requested, clear output buffers and output dragsort html
 if ((isset($_REQUEST['dragsort']) && $_REQUEST['dragsort'] == 1) 
@@ -338,7 +381,7 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 			if(!file_exists($mg->path_to_gal)) {
 				if(!$mg->mgconfig['use_ftp_commands']) {    
 					$old_umask = umask(0);
-					if(!mkdir($mg->path_to_gal, 0777)) {
+					if(!mkdir(substr($mg->path_to_gal, 0, -1), octdec($mg->mgconfig['chmod_folders']))) {
 						$output = 'Directory creation failed!'; 
 						return;
 					}
@@ -365,13 +408,19 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 						return;
 					}
 					$old_umask = umask(0);
-					$setPerm = ftp_site($connect, 'CHMOD 0777 /'.$path_to_galleries.$mg->pageinfo['id'].'/');
+					$setPerm = ftp_site($connect, 'CHMOD '.$mg->mgconfig['chmod_folders'].' '.$mg->mgconfig['ftp_base_dir'].$path_to_galleries.$mg->pageinfo['id'].'/');
 					if (!$setPerm) {
-						$output = 'Could not set permissions: '.'CHMOD 0777 /'.$path_to_galleries.$mg->pageinfo['id'].'/';
+						$output = 'Could not set permissions: '.'CHMOD '.$mg->mgconfig['chmod_folders'].' '.$mg->mgconfig['ftp_base_dir'].$path_to_galleries.$mg->pageinfo['id'].'/';
+						return;
 					}
 					umask($old_umask);
 					ftp_close($connect);
 				} 
+			//copy index.html to the gallery folder to prevent file listing
+			if (file_exists($modx->config['base_path'].$path_to_galleries.'index.html')) {
+				copy($modx->config['base_path'].$path_to_galleries.'index.html', $modx->config['base_path'].$mg->path_to_gal.'index.html');
+			}
+			
 			}
 			//if max picture limit is set, get current pictures in table
 			if($mg->mgconfig['max_pic_number']!=0){
@@ -396,15 +445,44 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 				if($name!="") {
 					$name = $mg->getFilename($name);
 					
-					move_uploaded_file( $_FILES['file'.$i]['tmp_name'] , $mg->path_to_gal.$name );
-					chmod($mg->path_to_gal.$name,0666);
-					
-					$handleMessage = $mg->handleFile($name, $modx->db->getRecordCount($rsx));
-					if ($handleMessage != "") {
-						$manageOuterTplData['messages'] .= $handleMessage;
-						$upload_error = true;
-					}
-					
+					if (move_uploaded_file( $_FILES['file'.$i]['tmp_name'] , $mg->path_to_gal.$name )) {
+						if (!file_exists($modx->config['base_path'].$mg->path_to_gal.$name)) {
+							$manageOuterTplData['messages'] .= $mg->strings['could_not_upload'].' '.$name;
+							$upload_error = true;	
+						} else {
+							if(!$mg->mgconfig['use_ftp_commands']) {
+								chmod($modx->config['base_path'].$mg->path_to_gal.$name, octdec($mg->mgconfig['chmod_files']));
+							} else {
+	            				$connect = ftp_connect($mg->mgconfig['ftp_server'], $mg->mgconfig['ftp_port']);
+					            if (!$connect) {
+					            	$manageOuterTplData['messages'] .= 'Connection to FTP failed.'; 
+					            	return;
+					            }
+					            $login = ftp_login($connect, $mg->mgconfig['ftp_user'], $mg->mgconfig['ftp_pass']);
+					            if (!$login) {
+					            	$manageOuterTplData['messages'] .= 'Could not login to FTP.'; 
+					            	return;	
+					            }
+					            $changeDir = ftp_chdir($connect, $mg->mgconfig['ftp_base_dir'].$path_to_galleries.$mg->pageinfo['id'].'/');
+					            if (!$changeDir) {
+					            	$manageOuterTplData['messages'] .= 'Could not change directory to: '.$mg->mgconfig['ftp_base_dir'].$path_to_galleries;
+					            	return;
+					            }
+					            $old_umask = umask(0);
+					            $setPerm = ftp_site($connect, 'CHMOD '.$mg->mgconfig['chmod_files'].' '.$mg->mgconfig['ftp_base_dir'].$mg->path_to_gal.$name);
+					            if (!$setPerm) {
+					            	$manageOuterTplData['messages'] .= 'Could not set permissions: '.'CHMOD '.$mg->mgconfig['chmod_files'].' '.$mg->mgconfig['ftp_base_dir'].$mg->path_to_gal.$name;
+					            }
+					            umask($old_umask);
+					            ftp_close($connect);
+					        }
+							$handleMessage = $mg->handleFile($name, $modx->db->getRecordCount($rsx));
+							if ($handleMessage != "") {
+								$manageOuterTplData['messages'] .= $handleMessage;
+								$upload_error = true;
+							}	
+						}
+					}					
 				}
 			}
 			if(!$upload_error){
@@ -439,7 +517,12 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 						if(!$mg->mgconfig['keep_date']) 
 							$updateQueryString.=",date=NOW()";
 						if($descvalid==1) 
-							$updateQueryString.=", descr='".addslashes($_REQUEST['descr'.$i])."'"; //MF add descr content
+							$updateQueryString.=", descr='".addslashes($_REQUEST['descr'.$i])."'"; //MF add descr content			
+						if($customfieldsvalid==1) { // added by Bruno
+							foreach ($mg->mgconfig['customFields'] as $field) {
+						    	$updateQueryString.=", ".$field."='".addslashes($_REQUEST[$field.$i])."'"; 	
+							}
+						} 							
 						if($custposvalid==1 && is_numeric($_REQUEST['pos'.$i]))
 							$updateQueryString.=", pos=".$_REQUEST['pos'.$i]; //add pos value
 						if ($_REQUEST['hide'.$i]=="yes") {
@@ -465,7 +548,16 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 				}else{
 					$sql = "SELECT * FROM " . $mg->pics_tbl . " WHERE gal_id='" . $mg->pageinfo['id'] . "' AND own_id='" . $modx->getLoginUserID() . "' ORDER BY " . $orderby . " " . $mg->mgconfig['order_direction'];
 				}
-				$rs1=$modx->db->query($sql);
+				
+				if (count($mg->mgconfig['pic_query_ids']) > 0) {
+					//retrieve pics by picture id's (query mode)
+					$rs1=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(id IN ('" . implode("','", $mg->mgconfig['pic_query_ids']) . "') AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+        		} else if (count($mg->mgconfig['gal_query_ids']) > 0) {
+        			//retrieve pics by gallery id's (query mode)
+        			$rs1=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(gal_id IN ('" . implode("','", $mg->mgconfig['gal_query_ids']) . "') AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+				}else {
+        			$rs1=$modx->db->query($sql);
+        		}
 				
 				while($deletepic=$modx->fetchRow($rs1)) {
 					$file = $mg->path_to_gal.$pic['filename'];
@@ -479,7 +571,7 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 				}
 				$manageOuterTplData['messages'] .= $mg->strings['changes_have_been_saved'];
 			}
-			else if($_REQUEST['action']=='gallery_synch' && is_dir($mg->path_to_gal)) { //if "resynch gallery" has been used
+			else if($_REQUEST['action']=='gallery_synch' && is_dir($mg->path_to_gal) && count($mg->mgconfig['pic_query_ids']) == 0 && count($mg->mgconfig['gal_query_ids']) == 0) { //if "resynch gallery" has been used
 				//get current pictures in table
 				//if random order, sort by date,pos in picture management
 				$orderby = $mg->mgconfig['order_by'];
@@ -491,7 +583,7 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 				// Store files currently in gallery
 				$filesExist = array();
 				while ($row = $modx->db->getRow($rsx)) {
-					$filesExist[$row['filename']] = true;
+					$filesExist[$row['filename']] = $row['id'];
 				}
 
 				$upload_error = false;
@@ -504,8 +596,8 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 						$manageOuterTplData['messages'] .= $mg->strings['max_pics_reached_some_discarded'];
 						break;
 					}
-
-					if ($name != '..' && $name != '.' && strpos($name, 'tn_') !== 0 && !isset($filesExist[$name])) {
+          
+					if (substr(strtolower($name),-5) != ".html" && $name != '..' && $name != '.' && strpos($name, 'tn_') !== 0 && strpos($name, 'big_') !== 0 && !array_key_exists($name, $filesExist)) {
 						$foundNewPics = true;
 						//handle image in gallery folder
 						$newname = $mg->getFilename($name);
@@ -519,11 +611,26 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 							$upload_error = true;
 						}					
 					}
+          	
+					if (array_key_exists($name, $filesExist)) {
+						$filesExist[$name] = 'valid';
+          }
 				}
 				closedir($dh);
-
-				if(!$upload_error && $foundNewPics){
+				
+        //remove pictures that do not exist anymore
+        $removedPics = false;
+        foreach ($filesExist as $file) { 
+					if($file != 'valid') {
+					  $removedPics = true;
+            $res=$modx->db->query("DELETE FROM " . $mg->pics_tbl . " WHERE id='" . $file . "'");
+          }
+        }
+        if(!$upload_error && $foundNewPics){
 					$manageOuterTplData['messages'] .= $mg->strings['pictures_successfully_uploaded'];
+				}
+				if($removedPics) {
+					$manageOuterTplData['messages'] .= $mg->strings['pictures_removed'];
 				}
 				//if display tyle is embedded and slidebox in use, create/update gallery xml
 				if($mg->mgconfig['display']=="embedded" && $mg->mgconfig['embedtype']=="slidebox"){
@@ -582,7 +689,16 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 		}else{
 			$sql = "SELECT * FROM " . $mg->pics_tbl . " WHERE gal_id='" . $mg->pageinfo['id'] . "' AND own_id='" . $modx->getLoginUserID() . "' ORDER BY " . $orderby . " " . $mg->mgconfig['order_direction'];
 		}
-		$rs1=$modx->db->query($sql);
+
+		if (count($mg->mgconfig['pic_query_ids']) > 0) { // added by Bruno
+			//retrieve pics by picture id's (query mode)
+			$rs1=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(id IN ('" . implode("','", $mg->mgconfig['pic_query_ids']) . "') AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+        } else if (count($mg->mgconfig['gal_query_ids']) > 0) {
+        	//retrieve pics by gallery id's (query mode)
+        	$rs1=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(gal_id IN ('" . implode("','", $mg->mgconfig['gal_query_ids']) . "') AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+		} else {
+        	$rs1=$modx->db->query($sql);
+        }
 		$i=0;
 		
 		$manageOuterTplData['managepictures'] = '';
@@ -597,8 +713,17 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 			
 			$pic['title'] = stripslashes($pic['title']);
 			$pic['descr'] = stripslashes($pic['descr']);
+			foreach ($mg->mgconfig['customFields'] as $field) { //added by Bruno 
+				$pic[$field] = stripslashes($pic[$field]);
+			}
+						
 			$managePictureTplData['picture'] = $pic;
-			$managePictureTplData['path_to_gal'] = $mg->path_to_gal;
+			
+			if (count($mg->mgconfig['pic_query_ids']) > 0 || count($mg->mgconfig['gal_query_ids']) > 0) { //added by Bruno
+				$managePictureTplData['path_to_gal'] = $path_to_galleries.$pic['gal_id']."/";
+			} else {
+				$managePictureTplData['path_to_gal'] = $mg->path_to_gal;
+			}
 			
 			$managePictureTplData['strings'] = $mg->strings;
 			
@@ -611,6 +736,10 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 			$managePictureTplFieldNameData['pictureid'] = 'pic_id'.$i;
 			$managePictureTplFieldNameData['modified'] = 'modified'.$i;
 			$managePictureTplFieldNameData['description'] = 'descr'.$i;
+
+			foreach ($mg->mgconfig['customFields'] as $field) { // added by Bruno
+				$managePictureTplFieldNameData[$field] = $field.$i;
+			}
 			
 			$managePictureTplData['fieldnames'] = $managePictureTplFieldNameData; 
 			
@@ -627,37 +756,48 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 		$outerTplDataHiddenFields['mainform'] = '<input type="hidden" name="action" value="edit_pics" /><input type="hidden" name="mode" value="admin" /><input type="hidden" name="number" value="'.$i.'" />';
 		$outerTplDataHiddenFields['deleteform'] = '<input type="hidden" name="action" value="delete_pics" /><input type="hidden" name="mode" value="admin" /><input type="hidden" name="number" value="'.$i.'" />';
 		
-		//check that max limit of pictures have not been reached, if it's set
-		if(!isset($mg->mgconfig['max_pic_number']) || $mg->mgconfig['max_pic_number']==0 || $mg->mgconfig['max_pic_number']>$modx->db->getRecordCount($rs1)){
-			$outerTplDataHiddenFields['uploadform'] = '<input type="hidden" name="action" value="upload_pics" /><input type="hidden" name="mode" value="admin" />';
+		//if not in query mode
+		if (count($mg->mgconfig['pic_query_ids']) == 0 && count($mg->mgconfig['gal_query_ids']) == 0) {
+			
+			//check that max limit of pictures have not been reached, if it's set
+			if(!isset($mg->mgconfig['max_pic_number']) || $mg->mgconfig['max_pic_number']==0 || $mg->mgconfig['max_pic_number']>$modx->db->getRecordCount($rs1)){
+				$outerTplDataHiddenFields['uploadform'] = '<input type="hidden" name="action" value="upload_pics" /><input type="hidden" name="mode" value="admin" />';
+				if(isset($mg->mgconfig['max_pic_number']) && $mg->mgconfig['max_pic_number']!=0) {
+					$uploadCount = $mg->mgconfig['max_pic_number'] - $modx->db->getRecordCount($rs1);
+				} else {
+					$uploadCount = $mg->mgconfig['upload_field_count'];
+				}
+				for($i=0;$i<$uploadCount&&$i<$mg->mgconfig['upload_field_count'];$i++) {
+					$tpl = new mgChunkie($mg->mgconfig['manageUploadTpl']);
+					$uploadPictureTplData = array();
+					
+					$uploadPictureTplData['counter'] = $i+1;
+					$uploadPictureTplData['fieldnames.file'] = 'file'.$i;
+					$uploadPictureTplData['config'] = $mg->mgconfig;
+					
+					$tpl->addVar('maxigallery', $uploadPictureTplData);
+				
+					$manageOuterTplData['uploadpictures'] .= $tpl->Render();
+								
+				}
+				
+			}else {
+				$manageOuterTplData['messages'] .= $mg->strings['max_pics_reached'];
+			}
+		
+			//if max pictures limit is set, do a placeholder to show how many pictures are available to be uploaded
 			if(isset($mg->mgconfig['max_pic_number']) && $mg->mgconfig['max_pic_number']!=0) {
-				$uploadCount = $mg->mgconfig['max_pic_number'] - $modx->db->getRecordCount($rs1);
+				$manageOuterTplData['pics_allowed_count'] = $mg->mgconfig['max_pic_number']-$modx->db->getRecordCount($rs1);
 			} else {
-				$uploadCount = $mg->mgconfig['upload_field_count'];
+				$manageOuterTplData['pics_allowed_count'] = "";
 			}
-			for($i=0;$i<$uploadCount&&$i<$mg->mgconfig['upload_field_count'];$i++) {
-				$tpl = new mgChunkie($mg->mgconfig['manageUploadTpl']);
-				$uploadPictureTplData = array();
-				
-				$uploadPictureTplData['counter'] = $i+1;
-				$uploadPictureTplData['fieldnames.file'] = 'file'.$i;
-				$uploadPictureTplData['config'] = $mg->mgconfig;
-				
-				$tpl->addVar('maxigallery', $uploadPictureTplData);
-			
-				$manageOuterTplData['uploadpictures'] .= $tpl->Render();
-							
-			}
-			
-		}else {
-			$manageOuterTplData['messages'] .= $mg->strings['max_pics_reached'];
+						
 		}
 		
-		//if max pictures limit is set, do a placeholder to show how many pictures are available to be uploaded
-		if(isset($mg->mgconfig['max_pic_number']) && $mg->mgconfig['max_pic_number']!=0) {
-			$manageOuterTplData['pics_allowed_count'] = $mg->mgconfig['max_pic_number']-$modx->db->getRecordCount($rs1);
+		if (count($mg->mgconfig['pic_query_ids']) == 0 && count($mg->mgconfig['gal_query_ids']) == 0) {
+			$manageOuterTplData['query_mode'] = 0;
 		} else {
-			$manageOuterTplData['pics_allowed_count'] = "";
+			$manageOuterTplData['query_mode'] = 1;
 		}
 		
 		$manageOuterTplData['hiddenfields'] = $outerTplDataHiddenFields;
@@ -672,9 +812,11 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id'])) {
 		//render template and return output
 		$output = $tpl->Render();
 		$mg->regSnippetScriptsAndCSS();
-		//register draggable picture sorting script
-		$modx->regClientStartupScript($modx->config['base_url'] . MAXIGALLERY_PATH . 'js/draggableReorder.js');
-		$modx->regClientStartupScript($modx->config['base_url'] . MAXIGALLERY_PATH . 'js/mooSortables.js');
+		if(!$mg->mgconfig['disable_draggable_js']) { 
+			//register draggable picture sorting script
+			//$modx->regClientStartupScript($modx->config['base_url'] . MAXIGALLERY_PATH . 'js/draggableReorder.js');
+			//$modx->regClientStartupScript($modx->config['base_url'] . MAXIGALLERY_PATH . 'js/mooSortables.js');
+		}
 		return;
 		
 	}
@@ -691,18 +833,15 @@ if($mg->checkPermissions($_SESSION['mgrInternalKey'],$mg->pageinfo['id']) && $mg
 	} else{
 		$formaction= $modx->makeUrl($modx->documentIdentifier, '', '');
 	} 
-	// if not in custom query mode, make manage button available
-	if (count($mg->mgconfig['gal_query_ids']) == 0 && count($mg->mgconfig['pic_query_ids']) == 0) {
-		$buttonTplData = array();
-		$buttonTplData['urlaction'] = $formaction;
-		$buttonTplData['hiddenfields'] = '<input type="hidden" name="mode" value="admin" />';
-		$buttonTplData['strings'] = $mg->strings;
-		$buttonTplData['config'] = $mg->mgconfig;
-		$tpl = new mgChunkie($mg->mgconfig['manageButtonTpl']);
-		$tpl->addVar('maxigallery', $buttonTplData);		
-		$outerTplData['managebutton'] = $tpl->Render();
-		$pictureTplData['managebutton'] = $tpl->Render();
-	}	
+	$buttonTplData = array();
+	$buttonTplData['urlaction'] = $formaction;
+	$buttonTplData['hiddenfields'] = '<input type="hidden" name="mode" value="admin" />';
+	$buttonTplData['strings'] = $mg->strings;
+	$buttonTplData['config'] = $mg->mgconfig;
+	$tpl = new mgChunkie($mg->mgconfig['manageButtonTpl']);
+	$tpl->addVar('maxigallery', $buttonTplData);		
+	$outerTplData['managebutton'] = $tpl->Render();
+	$pictureTplData['managebutton'] = $tpl->Render();
 }
 
 
@@ -735,7 +874,17 @@ if ($_REQUEST['pic'] || $mg->mgconfig['display'] == 'pictureview') {
 	}
 		
 	//retrieve all gallery pics
-	$rs=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "gal_id='" . $mg->pageinfo['id'] . "'", $orderby.' '.$mg->mgconfig['order_direction']);
+	if (count($mg->mgconfig['pic_query_ids']) > 0) {
+    //retrieve pics by picture id's (query mode)
+		$rs=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(id IN ('" . implode("','", $mg->mgconfig['pic_query_ids']) . "') AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+  } else if (count($mg->mgconfig['gal_query_ids']) > 0) {
+    //retrieve pics by gallery id's (query mode)
+    $rs=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(gal_id IN ('" . implode("','", $mg->mgconfig['gal_query_ids']) . "') AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+	}else {
+    $rs=$modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "gal_id='" . $mg->pageinfo['id'] . "' AND NOT hide='1'", $orderby.' '.$mg->mgconfig['order_direction'], $mg->mgconfig['offset'].','.$mg->mgconfig['limit']);
+  }
+	
+	
 	$pics = array();
 	while ($row = $modx->db->getRow($rs)) {
 	 	array_push($pics, $row);
@@ -767,6 +916,11 @@ if ($_REQUEST['pic'] || $mg->mgconfig['display'] == 'pictureview') {
 			$current=0;
 			$i=0;
 		}
+		// if in query mode
+		if (count($mg->mgconfig['gal_query_ids']) > 0 || count($mg->mgconfig['pic_query_ids']) > 0) {
+				$mg->path_to_gal = $path_to_galleries.$pics[$i]['gal_id']."/";
+		}
+		$pictureTplData['path_to_gal'] = $mg->path_to_gal;
 		
 		$pic_number=$i+1;
 				
@@ -810,13 +964,18 @@ if ($_REQUEST['pic'] || $mg->mgconfig['display'] == 'pictureview') {
 		$next_pic = $modx->makeUrl($modx->documentIdentifier, '', "pic=".$pics[$i+1]['id'].$next_pic_querystr);
 		$previous_pic = $modx->makeUrl($modx->documentIdentifier, '', "pic=".$pics[$i-1]['id'].$previous_pic_querystr);
 		
+		$page = 1;
+		if ($mg->mgconfig['pics_per_page'] != 0) {
+			$page = (int)((($pic_number-1)/$mg->mgconfig['pics_per_page']))+1;
+		}
+		
 		//build back to index link
 		if($_REQUEST['from_id']){
-			$back_to_index = $modx->makeUrl($_REQUEST['from_id'], '', '');
+			$back_to_index = $modx->makeUrl($_REQUEST['from_id'], '', 'page='.$page);
 		}else if($mg->mgconfig['is_target']==true && $_REQUEST['gal_id']){
-			$back_to_index = $modx->makeUrl($_REQUEST['gal_id'], '', '');
+			$back_to_index = $modx->makeUrl($_REQUEST['gal_id'], '', 'page='.$page);
 		}else{
-			$back_to_index = $modx->makeUrl($modx->documentIdentifier, '', '');
+			$back_to_index = $modx->makeUrl($modx->documentIdentifier, '', 'page='.$page);
 		}
 		
 		$pictureTplData['index_url'] = $back_to_index;
@@ -863,12 +1022,19 @@ if($mg->mgconfig['display']=="childgalleries") {
 	$tpl = new mgChunkie($mg->mgconfig['childgalleryTpl']);
 	preg_match_all('~tv\.(.[^\+|\:]*)~',$tpl->template, $matches);
 	$tvNames = $matches[1];
+	
+	if (substr($mg->mgconfig['childgalleries_order_by'], 0, 2) == "tv") {
+		$tvNames[] =substr($mg->mgconfig['childgalleries_order_by'], 2);  
+	}
 
 	$children = $mg->getAllSubDocuments($childgalleryIds, $mg->mgconfig['childgalleries_ids'], $mg->mgconfig['childgalleries_order_by'], $mg->mgconfig['childgalleries_order_direction'], $mg->mgconfig['childgalleries_level_limit'], $mg->mgconfig['childgalleries_limit'], true, false, $tvNames);
 	
 	$outerTplData['childgallerycount'] = count($children);
 	
 	$counter = 1;
+	$rownumber = 1;
+	$picpagenumber = 1;
+	$i=0;
 	if ($children != null && count($children) > 0) {
 		foreach($children as $child) {
 			//if random order, use mysql RAND()			
@@ -877,25 +1043,70 @@ if($mg->mgconfig['display']=="childgalleries") {
 			} else {
 				$orderby = $mg->mgconfig['order_by'];
 			}
-			$rs = $modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(gal_id='" . $child['id'] . "' AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'],1);
-			$thumb = array();
-			while ($row = $modx->db->getRow($rs)) {
-		 		array_push($thumb, $row);
+			$limit = 1;
+			if ($mg->mgconfig['childembedtype'] != "normal") {
+				$limit = 9999999;
 			}
-			if($thumb[0]['filename']=="") continue;
-		
+			$rs = $modx->db->select("*", $modx->db->config['table_prefix'].$mg->mgconfig['gtable'], "(gal_id='" . $child['id'] . "' AND NOT hide='1')",$orderby.' '.$mg->mgconfig['order_direction'],$limit);
+			$thumbs = array();
+			while ($row = $modx->db->getRow($rs)) {
+		 		array_push($thumbs, $row);
+			}
+			if($thumbs[0]['filename']=="") continue;
+			
+			$tpl = new mgChunkie($mg->mgconfig['galleryPictureTpl']);
+			$tpl->addVar('maxigallery', $pictureTplData);
+			$outerTplData['pictures'] .= $tpl->Render();
+			
 			$childgalleryTplData = array();
-			$childgalleryTplData['picscount'] = count($thumb);
+			$childgalleryTplData['childembedtype'] = $mg->mgconfig['childembedtype'];
+						
+			if ($mg->mgconfig['childembedtype'] != "normal") {
+				$i=1;
+				if ($mg->mgconfig['childembedtype'] == "smoothgallery") {
+					$i=0;
+				}
+				for ($i;$i<count($thumbs);$i++) {
+					$childgalleryPictureTplData = array();
+					$thumbs[$i]['title'] = stripslashes($thumbs[$i]['title']);
+					$thumbs[$i]['descr'] = stripslashes($thumbs[$i]['descr']);
+					$childgalleryPictureTplData['picture'] = $thumbs[$i];
+					$childgalleryPictureTplData['strings'] = $mg->strings;
+					$childgalleryPictureTplData['pageinfo'] = $child;
+					$childgalleryPictureTplData['childembedtype'] = $mg->mgconfig['childembedtype'];
+					$childgalleryPictureTplData['path_to_gal'] = $path_to_galleries.$child['id']."/";
+					$childgalleryPictureTplData['picnumber'] = $i+1;
+					
+					//if in query mode
+					if(isset($mg->mgconfig['picture_target']) && $mg->mgconfig['picture_target'] != "") {
+						$childgalleryPictureTplData['picture_link_url'] = $modx->makeUrl($mg->mgconfig['picture_target'], '', "&gal_id=".$child['id']."&pic=".$thumbs[$i]['id']);
+					} else if(isset($mg->mgconfig['view_gallery']) && $mg->mgconfig['view_gallery'] != "") {
+						$childgalleryPictureTplData['picture_link_url'] = $modx->makeUrl($child['id'], '', "&pic=".$thumbs[$i]['id']."&from_id=".$modx->documentIdentifier);
+					} else {
+						$childgalleryPictureTplData['picture_link_url'] = $modx->makeUrl($child['id'], '', "&pic=".$thumbs[$i]['id']);
+					}
+					
+					$tpl = new mgChunkie($mg->mgconfig['childgalleryPictureTpl']);
+					$tpl->addVar('maxigallery', $childgalleryPictureTplData);
+					$childgalleryTplData['pictures'] .= $tpl->Render();
+				}
+			}
+			
+			$childgalleryTplData['picscount'] = $modx->db->getValue('SELECT count(*) from '.$mg->pics_tbl.' where gal_id = '.$child['id']);
 			$childgalleryTplData['strings'] = $mg->strings;
 			$childgalleryTplData['pageinfo'] = $child;
-			$thumb[0]['title'] = stripslashes($thumb[0]['title']);
-			$thumb[0]['descr'] = stripslashes($thumb[0]['descr']);
-			$childgalleryTplData['picture'] = $thumb[0]; 
+			$thumbs[0]['title'] = stripslashes($thumbs[0]['title']);
+			$thumbs[0]['descr'] = stripslashes($thumbs[0]['descr']);
+			$childgalleryTplData['picture'] = $thumbs[0]; 
 			$childgalleryTplData['childurl'] = $modx->makeUrl($child['id'], '', '');
 			$childgalleryTplData['path_to_gal'] = $path_to_galleries.$child['id']."/";
+			$childgalleryTplData['rownumber'] = $rownumber;
+			$childgalleryTplData['picrownumber'] = $counter;
+			$childgalleryTplData['picpagenumber'] = $picpagenumber;
+			$childgalleryTplData['picnumber'] = $i+1;
 			
-			if(file_exists($modx->config['base_path'].$path_to_galleries.$child['id']."/"."big_".$thumb[0]['filename'])){
-				$imagesize=getimagesize($modx->config['base_path'].$path_to_galleries.$child['id']."/"."big_".$thumb[0]['filename']);
+			if(file_exists($modx->config['base_path'].$path_to_galleries.$child['id']."/"."big_".$thumbs[0]['filename'])){
+				$imagesize=getimagesize($modx->config['base_path'].$path_to_galleries.$child['id']."/"."big_".$thumbs[0]['filename']);
 				$childgalleryTplData['picture_height_big'] = $imagesize[1];
 				$childgalleryTplData['picture_width_big'] = $imagesize[0];
 				$childgalleryTplData['big_pic_exists'] = 1;
@@ -903,14 +1114,14 @@ if($mg->mgconfig['display']=="childgalleries") {
 				$childgalleryTplData['big_pic_exists'] = 0;
 			}
 			
-			if(file_exists($modx->config['base_path'].$path_to_galleries.$child['id']."/".$thumb[0]['filename'])){
-				$imagesize=getimagesize($modx->config['base_path'].$path_to_galleries.$child['id']."/".$thumb[0]['filename']);
+			if(file_exists($modx->config['base_path'].$path_to_galleries.$child['id']."/".$thumbs[0]['filename'])){
+				$imagesize=getimagesize($modx->config['base_path'].$path_to_galleries.$child['id']."/".$thumbs[0]['filename']);
 				$childgalleryTplData['picture_height_normal'] = $imagesize[1];
 				$childgalleryTplData['picture_width_normal'] = $imagesize[0];
 			}
 			
-			if(file_exists($modx->config['base_path'].$path_to_galleries.$child['id']."/"."tn_".$thumb[0]['filename'])){
-				$imagesize=getimagesize($modx->config['base_path'].$path_to_galleries.$child['id']."/"."tn_".$thumb[0]['filename']);
+			if(file_exists($modx->config['base_path'].$path_to_galleries.$child['id']."/"."tn_".$thumbs[0]['filename'])){
+				$imagesize=getimagesize($modx->config['base_path'].$path_to_galleries.$child['id']."/"."tn_".$thumbs[0]['filename']);
 				$childgalleryTplData['picture_height_thumb'] = $imagesize[1];
 				$childgalleryTplData['picture_width_thumb'] = $imagesize[0];
 				$childgalleryTplData['config'] = $mg->mgconfig;
@@ -920,12 +1131,14 @@ if($mg->mgconfig['display']=="childgalleries") {
 			$tpl->addVar('maxigallery', $childgalleryTplData);
 			$outerTplData['childgalleries'] .= $tpl->Render();
 		
-			if($counter == $mg->mgconfig['pics_per_row']) {
+			if($counter == $mg->mgconfig['pics_per_row'] && ($i < (count($children) - 1))) {
 				$outerTplData['childgalleries'] .= $tpl->getTemplate($mg->mgconfig['clearerTpl']);
 				$counter = 0;
+				$rownumber++;
 			}
-		
+			$picpagenumber++;		
 			$counter++;
+			$i++;
 		}
 	}
 }
@@ -937,7 +1150,7 @@ if($mg->mgconfig['display']=="childgalleries") {
 
 // --- Add by Marc:
 if ($mg->mgconfig['debug']) echo"Debug >> ". __LINE__." - // Show gallery overview with thumbnails<br />\n";
-if ($mg->mgconfig['debug']) echo"|--- Pics_in_a_row: ".$mg->mgconfig['pics_in_a_row']."<br />\n";
+if ($mg->mgconfig['debug']) echo"|--- Pics_per_row: ".$mg->mgconfig['pics_per_row']."<br />\n";
 if ($mg->mgconfig['debug']) echo"|--- Pics per page: ".$mg->mgconfig['pics_per_page']."<br />\n";
 if ($mg->mgconfig['debug']) echo"|--- Only_page_numbers: ".$mg->mgconfig['only_page_numbers']."<br />\n";
 if ($mg->mgconfig['debug']) echo"|--- Display: ".$mg->mgconfig['display']."<br />\n";
@@ -1031,6 +1244,8 @@ if(!isset($mg->mgconfig['pics_per_page']) || $mg->mgconfig['pics_per_page']==0 |
 }
 //print out gallery overview
 $counter = 1;
+$rownumber = 1;
+$picpagenumber = 1;
 for($i=$offset;$i<$limit;$i++){
 	//if in query mode
 	if (count($mg->mgconfig['gal_query_ids']) > 0 || count($mg->mgconfig['pic_query_ids']) > 0) {
@@ -1045,9 +1260,14 @@ for($i=$offset;$i<$limit;$i++){
 	$pics[$i]['title'] = stripslashes($pics[$i]['title']);
 	$pics[$i]['descr'] = stripslashes($pics[$i]['descr']);
 	$pictureTplData['picture'] = $pics[$i];
+	$pictureTplData['rownumber'] = $rownumber;
+	$pictureTplData['picrownumber'] = $counter;
+	$pictureTplData['picpagenumber'] = $picpagenumber;
+	$pictureTplData['picnumber'] = $i+1;
+	
 	
 	//if in query mode
-	if (count($mg->mgconfig['gal_query_ids']) > 0 || count($mg->mgconfig['pic_query_ids']) > 0) {
+	if ((count($mg->mgconfig['gal_query_ids']) > 0 || count($mg->mgconfig['pic_query_ids']) > 0) && $mg->mgconfig['query_mode_link_original']) {
 		$pictureTplData['picture_link_url'] = $modx->makeUrl($pics[$i]['gal_id'], '', "&pic=".$pics[$i]['id']."&from_id=".$modx->documentIdentifier);
 	} else if(isset($mg->mgconfig['picture_target']) && $mg->mgconfig['picture_target'] != "") {
 		$pictureTplData['picture_link_url'] = $modx->makeUrl($mg->mgconfig['picture_target'], '', "&gal_id=".$mg->pageinfo['id']."&pic=".$pics[$i]['id']);
@@ -1081,17 +1301,19 @@ for($i=$offset;$i<$limit;$i++){
 	$tpl->addVar('maxigallery', $pictureTplData);
 	$outerTplData['pictures'] .= $tpl->Render();
 	
-	if($counter == $mg->mgconfig['pics_per_row']) {
+	if($counter == $mg->mgconfig['pics_per_row'] && ($i < ($limit - 1))) {
 		$outerTplData['pictures'] .= $tpl->getTemplate($mg->mgconfig['clearerTpl']);
 		$counter = 0;
+		$rownumber++;
 	}
-	
+	$picpagenumber++;
 	$counter++;
 }
 
 $tpl = new mgChunkie($mg->mgconfig['galleryOuterTpl']);
 //add data to the template
 $outerTplData['embedtype'] = $mg->mgconfig['embedtype'];
+$outerTplData['childembedtype'] = $mg->mgconfig['childembedtype'];
 $outerTplData['pageinfo'] = $mg->pageinfo;
 $outerTplData['strings'] = $mg->strings;
 $outerTplData['config'] = $mg->mgconfig;

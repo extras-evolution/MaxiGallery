@@ -39,6 +39,8 @@
 	
 	<div class="picture">
 	
+	[+maxigallery.big_pic_exists:isnot=`0`:then=`
+	
 	[+maxigallery.big_img_linkstyle:is=`slidebox`:then=` 
 
 		<a href="[(base_url)][+maxigallery.path_to_gal+]big_[+maxigallery.picture.filename+]" rel="lightbox" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
@@ -59,7 +61,7 @@
 
 	[+maxigallery.big_img_linkstyle:is=`popup`:then=` 
 
-		<a href="javascript:void(0);" onClick="javascript:openWindow('[(base_url)][+maxigallery.path_to_gal+]big_[+maxigallery.picture.filename+]','[+maxigallery.picture.title:htmlent+]',[+maxigallery.picture_height_big+],[+maxigallery.picture_width_big+],'gallery');" title="[+maxigallery.strings.click_to_open_original+]">
+		<a href="javascript:void(0);" onclick="javascript:openWindow('[(base_url)][+maxigallery.path_to_gal+]big_[+maxigallery.picture.filename+]','[+maxigallery.picture.title:htmlent+]',[+maxigallery.picture_height_big+],[+maxigallery.picture_width_big+],'gallery');" title="[+maxigallery.strings.click_to_open_original+]">
 
 	`+]
 
@@ -68,7 +70,9 @@
 		<a href="[(base_url)][+maxigallery.path_to_gal+]big_[+maxigallery.picture.filename+]" rel="external" title="[+maxigallery.strings.click_to_open_original+]">
 
 	`+]
-
+	
+	`+]
+	
 	[+maxigallery.keep_bigimg:is=`0`:then=`
 
 		<a href="[+maxigallery.index_url+]" title="[+maxigallery.strings.click_to_go_back+]">
@@ -76,8 +80,12 @@
 	`+]
 
 		<img src="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" class="imageview" alt="[+maxigallery.strings.date+] : [+maxigallery.picture.date+]" />
-
+	
+	[+maxigallery.big_pic_exists:isnot=`0`:then=`
+	
 		</a>
+		
+	`+]
 		
 	</div>
 	

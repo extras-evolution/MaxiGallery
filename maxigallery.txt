@@ -5,7 +5,7 @@
  * Advanced imagegallery snippet
  *
  * @category 	snippet
- * @version 	0.5.3
+ * @version 	0.6
  * @authoer 	doze <dozebox@gmail.com>
  * @authoer 	yama <yamamoto@kyms.jp>
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)

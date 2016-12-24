@@ -49,4 +49,7 @@ $strings['cancel'] = "Cancelar";
 $strings['number_allowed'] = "N&uacute;mero de imagens permitidas para para upload";
 $strings['gallery_resynched'] = "<b>A pasta da Galeria foi sincronizada.</b>";
 $strings['resynch'] = "Sincronizar Galeria";
+$strings['loading'] = "Loading...";
+$strings['galleries'] = "Galleries";
+$strings['other_galleries'] = "Other Galleries";
 ?>

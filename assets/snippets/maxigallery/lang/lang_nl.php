@@ -48,4 +48,7 @@ $strings['cancel'] = "Annuleer";
 $strings['number_allowed'] = "Aantal afbeeldingen dat is toegestaan te uploaden";
 $strings['gallery_resynched'] = "<b>Gallery folder is Hergesynchroniseerd.</b>";
 $strings['resynch'] = "Hersynchroniseer Gallery";
+$strings['loading'] = "Loading...";
+$strings['galleries'] = "Galleries";
+$strings['other_galleries'] = "Other Galleries";
 ?>

@@ -48,4 +48,7 @@ $strings['cancel'] = "Prekli&#x010D;i";
 $strings['number_allowed'] = "&#x0160;tevilo dovoljenih slik za dodajanje";
 $strings['gallery_resynched'] = "<b>Mapa s slikami je bila sinhronizirana.</b>";
 $strings['resynch'] = "Sinhroniziraj galerijo";
+$strings['loading'] = "Loading...";
+$strings['galleries'] = "Galleries";
+$strings['other_galleries'] = "Other Galleries";
 ?>

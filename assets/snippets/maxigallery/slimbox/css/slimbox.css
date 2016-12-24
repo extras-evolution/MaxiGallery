@@ -6,11 +6,11 @@
 	width: 100%;
 	background-color: #000;
 	cursor: pointer;
-	z-index: 999999999;
+	z-index: 888;
 }
 
 #lbCenter, #lbBottomContainer {
-	z-index: 9999999999;
+	z-index: 999;
 	position: absolute;
 	left: 50%;
 	overflow: hidden;

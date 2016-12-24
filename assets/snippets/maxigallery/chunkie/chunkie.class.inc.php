@@ -43,21 +43,25 @@ class mgChunkie {
 		} else {
 			$template = $this->phx->Parse($this->template);
 		}
-		return $template;
+		return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $template);;
 	}
 	
 	function getTemplate($tpl){
 		// by Mark Kaplan
 		global $modx;
-		$template = "";
-		if ($modx->getChunk($tpl) != "") {
-			$template = $modx->getChunk($tpl);
-		} else if(substr($tpl, 0, 6) == "@FILE:") {
+		switch (substr($tpl, 0, 6)) {
+		case '@FILE:':
 			$template = $this->get_file_contents($modx->config['base_path'].substr($tpl, 6));
-		} else if(substr($tpl, 0, 6) == "@CODE:") {
+			break;
+		case '@CODE:':
 			$template = substr($tpl, 6);
-		} else {
-			$template = FALSE;
+			break;
+		case '@CHUNK':
+			$template = $modx->getChunk(substr($tpl, 7));
+			break;
+		default:
+			$template = $modx->getChunk($tpl);
+			break;
 		}
 		return $template;
 	}

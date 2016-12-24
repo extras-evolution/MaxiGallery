@@ -15,15 +15,19 @@
 			<input type="button" value="[+maxigallery.strings.back_to_normal_view+]" onclick="location.href='[+maxigallery.urlback+]'"/>
 			<input type="submit" value="[+maxigallery.strings.save_changes+]" />
 			<input type="button" value="[+maxigallery.strings.sort_pictures+]" id="dragButton" onclick="openDragWin('[+maxigallery.urldragsort+]', 600, 500)" />
-	
+			
+			[+maxigallery.query_mode:isnot=`1`:then=`
 			<br /><br />
 			<a href="[+maxigallery.urlaction+]#uploadform">[+maxigallery.strings.jump_to_upload_form+]</a>
+			`+]
 			<br /><br />
 		
 			[+maxigallery.managepictures+]
 		
 		</form>
 	</div>
+	
+	[+maxigallery.query_mode:isnot=`1`:then=`
 	
 	<div class="uploadform">
 		<a href="[+maxigallery.urlaction+]#top">[+maxigallery.strings.back_to_top+]</a>
@@ -48,20 +52,32 @@
 	<br class="clearboth" />
 	<hr />
 	
+	`+]
+	
+	[+maxigallery.query_mode:is=`1`:then=`
+	
+	<a href="[+maxigallery.urlaction+]#top">[+maxigallery.strings.back_to_top+]</a><br /><br />
+	
+	`+]
+	
 	<div class="deleteform">
 		<form action="[+maxigallery.urlaction+]" method="post" name="deleteform">
 			[+maxigallery.hiddenfields.deleteform+]
 			<input type="submit" value="[+maxigallery.strings.delete_all_pictures+]" onClick="return confirm('[+maxigallery.strings.delete_all_confirmation+]')" />
 		</form>
 	</div>
-	
+
+	[+maxigallery.query_mode:isnot=`1`:then=`
+
 	<div class="synchform">
     	<form action="[+maxigallery.urlaction+]" method="post" name="synchform">
 			<input type="hidden" name="action" value="gallery_synch" /><input type="hidden" name="mode" value="admin" />
             <input type="submit" value="[+maxigallery.strings.resynch+]" />
         </form>
     </div>
-    
+	
+	`+]    
+	
 	<br class="clearboth" />
 	<hr />
 	    

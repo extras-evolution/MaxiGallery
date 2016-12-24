@@ -7,11 +7,20 @@
 
 [+maxigallery.childgalleries:isnot=``:then=`
 	<div class="childscontainer">
+	
+[+maxigallery.childembedtype:is=`smoothgallery`:then=`  
+		<div id="myGallerySet[+maxigallery.pageinfo.id+]">
+			[+maxigallery.childgalleries+]
+		</div>
+`+]
+
+[+maxigallery.childembedtype:isnot=`smoothgallery`:then=`  
 		<ul class="thumbs">
 			[+maxigallery.childgalleries+]
 		</ul>
+`+]
+
 	</div>
-	
 `+]
 
 [+maxigallery.pagenumbers:isnot=``:then=`

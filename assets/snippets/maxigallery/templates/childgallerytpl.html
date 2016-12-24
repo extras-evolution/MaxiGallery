@@ -1,6 +1,55 @@
+[+maxigallery.childembedtype:is=`normal`:then=` 
+
 <li>
 	<a href="[+maxigallery.childurl+]">
 		<img src="[(base_url)][+maxigallery.path_to_gal+]tn_[+maxigallery.picture.filename+]" class="thumbnail" title="[+maxigallery.strings.go_to_gallery+]" alt="[+maxigallery.strings.go_to_gallery+]" />
 	</a>
-	<p style="width:[+maxigallery.picture_width_thumb+]px;">[+maxigallery.pageinfo.pagetitle:htmlent+]</p>
+	<p style="width:[+maxigallery.picture_width_thumb+]px; margin:0 auto;">[+maxigallery.pageinfo.pagetitle:htmlent+]</p>
 </li>
+
+`+]
+
+[+maxigallery.childembedtype:is=`slimbox`:then=` 
+
+<li>
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[image[+maxigallery.pageinfo.id+]set]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
+		<img src="[(base_url)][+maxigallery.path_to_gal+]tn_[+maxigallery.picture.filename+]" class="thumbnail" title="[+maxigallery.strings.go_to_gallery+]" alt="[+maxigallery.strings.go_to_gallery+]" />
+	</a>
+	<p style="width:[+maxigallery.picture_width_thumb+]px;">[+maxigallery.pageinfo.pagetitle:htmlent+]</p>
+	[+maxigallery.pictures+]
+</li>
+
+`+]
+
+[+maxigallery.childembedtype:is=`lightboxv2`:then=` 
+
+<li>
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox[image[+maxigallery.pageinfo.id+]set]" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
+		<img src="[(base_url)][+maxigallery.path_to_gal+]tn_[+maxigallery.picture.filename+]" class="thumbnail" title="[+maxigallery.strings.go_to_gallery+]" alt="[+maxigallery.strings.go_to_gallery+]" />
+	</a>
+	<p style="width:[+maxigallery.picture_width_thumb+]px;">[+maxigallery.pageinfo.pagetitle:htmlent+]</p>
+	[+maxigallery.pictures+]
+</li>
+
+`+]
+
+[+maxigallery.childembedtype:is=`slidebox`:then=` 
+
+<li>
+	<a href="[(base_url)][+maxigallery.path_to_gal+][+maxigallery.picture.filename+]" rel="lightbox_[+maxigallery.path_to_gal+]gallery" title="[+maxigallery.picture.title:htmlent+] - [+maxigallery.picture.descr:htmlent+]">
+		<img src="[(base_url)][+maxigallery.path_to_gal+]tn_[+maxigallery.picture.filename+]" class="thumbnail" title="[+maxigallery.strings.go_to_gallery+]" alt="[+maxigallery.strings.go_to_gallery+]" />
+	</a>
+	<p style="width:[+maxigallery.picture_width_thumb+]px;">[+maxigallery.pageinfo.pagetitle:htmlent+]</p>
+	[+maxigallery.pictures+]
+</li>
+
+`+]
+
+[+maxigallery.childembedtype:is=`smoothgallery`:then=`  
+
+<div class="galleryElement">
+   	<h2>[+maxigallery.pageinfo.pagetitle:htmlent+]</h2>
+	[+maxigallery.pictures+]
+</div>
+
+`+]
