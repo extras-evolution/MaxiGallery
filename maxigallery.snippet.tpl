@@ -83,7 +83,7 @@
 $path_to_galleries=$modx->config['rb_base_url'] . 'galleries/'; // [ path ]
 //
 // Path where MaxiGallery is installed
-define(MAXIGALLERY_PATH, "assets/snippets/maxigallery/");
+define('MAXIGALLERY_PATH', "assets/snippets/maxigallery/");
 //
 //include snippet file
 $output = "";
