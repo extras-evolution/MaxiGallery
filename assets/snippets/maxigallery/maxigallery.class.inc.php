@@ -9,7 +9,7 @@ class maxiGallery {
 	//
 	// Constructor class
 	//
-	function maxiGallery($mgconfig,$strings) {
+	function __construct($mgconfig,$strings) {
 		// Set template variables to empty var
 		$this->mgconfig = $mgconfig;
 		$this->strings = $strings;
@@ -150,7 +150,7 @@ class maxiGallery {
 		global $modx;
 		if($userid) {
 			//if user is logged in from backend, check user-document permissions 
-			include_once $modx->config['base_path'].'manager/processors/user_documents_permissions.class.php';
+			include_once MODX_BASE_PATH.MGR_DIR.'/processors/user_documents_permissions.class.php';
     		$udperms = new udperms();
     		$udperms->user = $userid;
     		$udperms->document = $docid;
