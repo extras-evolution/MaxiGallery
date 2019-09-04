@@ -490,6 +490,7 @@ class maxiGallery {
 	//-------------------------------------------------------------------------------------------------
 	//function to handle uploaded file
 	function handleFile($name, $current_pics_count=-1){
+		global $modx;
 		if(substr(strtolower($name),-4)==".jpg" || substr(strtolower($name),-5)==".jpeg") {
 			$retStr = $this->handlePics($name, "jpeg");
 			if ($retStr != "") {
