@@ -527,7 +527,7 @@ class maxiGallery {
 			if ($list == 0) {
 				return "Error : ".$archive->errorInfo(true);
 			} else {
-				for($i=0;$i<count($list);$i++){
+				for($i=0, $iMax = count($list); $i< $iMax; $i++){
 					if ($list[$i]['status'] == 'ok') {
 						//if max pics limit reached, return
 						if($this->mgconfig['max_pic_number']!=0 && $current_pics_count != -1 && ($this->mgconfig['max_pic_number'] <= ($i + $current_pics_count))){
@@ -895,7 +895,7 @@ class maxiGallery {
 				}
 			}
 			//loop through the document array and add the tvar values to each document
-			for ($i=0;$i<count($resources);$i++) {
+			for ($i=0, $iMax = count($resources); $i< $iMax; $i++) {
 				if (array_key_exists("#{$resources[$i]['id']}",$tvValues)) {
 					foreach ($tvValues["#{$resources[$i]['id']}"] as $tvName => $tvValue) {
 						$resources[$i]['tv.'.$tvName] = $tvValue;
