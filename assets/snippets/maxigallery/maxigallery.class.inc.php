@@ -5,7 +5,7 @@
 class maxiGallery {
 	// Declaring private variables
 	var $mgconfig;
-	
+
 	//
 	// Constructor class
 	//
@@ -17,7 +17,7 @@ class maxiGallery {
 		$this->pageinfo = null;
 		$this->path_to_gal = null;
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------
 	//function for paging
 	//returns array of pager values
@@ -29,10 +29,10 @@ class maxiGallery {
 		$page = max($page, 1);
 		$page = min($page, $numPages);
 		$offset = ($page - 1) * $limit;
-		$ret['offset'] = $offset; 
-		$ret['limit'] = $limit; 
-		$ret['numPages'] = $numPages; 
-		$ret['page'] = $page; 
+		$ret['offset'] = $offset;
+		$ret['limit'] = $limit;
+		$ret['numPages'] = $numPages;
+		$ret['page'] = $page;
 		return $ret;
 	}
 	//-------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ class maxiGallery {
 			}
 		}//if description field was not found, try to create it
 		$query=$modx->db->query("ALTER TABLE ".$this->pics_tbl." ADD `descr` TEXT DEFAULT NULL ;");
-		if($query){ 
+		if($query){
 			return true;
 		}
 		return false;
@@ -84,7 +84,7 @@ class maxiGallery {
 			}
 		}//if position field was not found, try to create it
 		$query=$modx->db->query("ALTER TABLE ".$this->pics_tbl." ADD `pos` int(10) DEFAULT NULL ;");
-		if($query){ 
+		if($query){
 			return true;
 		}
 		return false;
@@ -101,7 +101,7 @@ class maxiGallery {
 			}
 		}//if owner field was not found, try to create it
 		$query=$modx->db->query("ALTER TABLE ".$this->pics_tbl." ADD `own_id` int(10) DEFAULT NULL ;");
-		if($query){ 
+		if($query){
 			return true;
 		}
 		return false;
@@ -118,13 +118,13 @@ class maxiGallery {
 			}
 		}//if hide field was not found, try to create it
 		$query=$modx->db->query("ALTER TABLE ".$this->pics_tbl." ADD `hide` int(1) DEFAULT 0;");
-		if($query){ 
+		if($query){
 			return true;
 		}
 		return false;
-	}	
+	}
 	//-------------------------------------------------------------------------------------------------
-	//added by Bruno 
+	//added by Bruno
 	//function to check database table for custom fields
 	function checkCustomFields(){
 		global $modx;
@@ -140,8 +140,8 @@ class maxiGallery {
 				}
 			}
 		}
-       return true;  
-	}	
+		return true;
+	}
 
 	//-------------------------------------------------------------------------------------------------
 	//end add by Bruno
@@ -149,21 +149,21 @@ class maxiGallery {
 	function checkPermissions($userid,$docid){
 		global $modx;
 		if($userid) {
-			//if user is logged in from backend, check user-document permissions 
+			//if user is logged in from backend, check user-document permissions
 			include_once MODX_BASE_PATH.MGR_DIR.'/processors/user_documents_permissions.class.php';
-    		$udperms = new udperms();
-    		$udperms->user = $userid;
-    		$udperms->document = $docid;
-    		$udperms->role = $_SESSION['mgrRole'];
-    		if ($udperms->checkPermissions()) {
-    			return true;
-    		}
+			$udperms = new udperms();
+			$udperms->user = $userid;
+			$udperms->document = $docid;
+			$udperms->role = $_SESSION['mgrRole'];
+			if ($udperms->checkPermissions()) {
+				return true;
+			}
 		}
-		
+
 		//check whether user is logged in and belongs to selected webgroups
 		if((count($this->mgconfig['manager_webgroups'])>0 && $modx->isMemberOfWebGroup($this->mgconfig['manager_webgroups'])) || (count($this->mgconfig['admin_webgroups'])>0 && $modx->isMemberOfWebGroup($this->mgconfig['admin_webgroups']))){
-			return true; 
-		//check whether user is logged in and is defined in manager_webusers
+			return true;
+			//check whether user is logged in and is defined in manager_webusers
 		} else if (($modx->getLoginUserName()!="" && in_array($modx->getLoginUserName(), $this->mgconfig['manager_webusers'])) || ($modx->getLoginUserName()!="" && in_array($modx->getLoginUserName(), $this->mgconfig['admin_webusers']))){
 			return true;
 		} else {
@@ -174,7 +174,7 @@ class maxiGallery {
 	//function to create the pics
 	function createthumb($filename,$filetype,$path_to_gal,$prefix="",$resize=true) {
 		global $modx;
-		
+
 		if($prefix == "tn_"){
 			$use_watermark = $this->mgconfig['thumb_use_watermark'];
 			$max_thumb_size = $this->mgconfig['max_thumb_size'];
@@ -245,7 +245,7 @@ class maxiGallery {
 		}else if($filetype=="png"){
 			$thumb->output_format='PNG';
 		}
-		if($use_watermark){	
+		if($use_watermark){
 			//apply watermark
 			if($watermark_type == "image"){
 				$thumb->img_watermark=$watermark_img;
@@ -271,7 +271,7 @@ class maxiGallery {
 		}
 		$thumb->process();
 		$thumb->save($path_to_gal.$prefix.$filename);
-		
+
 		if ($thumb->img["src"]) {
 			@ImageDestroy($thumb->img["src"]);
 		}
@@ -280,7 +280,7 @@ class maxiGallery {
 		}
 
 		unset($thumb);
-		
+
 		//dropshadow
 		if($use_dropshadow){
 			include_once($modx->config['base_path'].MAXIGALLERY_PATH.'dropshadow/class.dropshadow.php');
@@ -332,17 +332,17 @@ class maxiGallery {
 			}
 			include_once($modx->config['base_path'].MAXIGALLERY_PATH.'imagemask/class.imagemask.php');
 			$im = new imageMask($imagemask_bg);
-		    $im->setDebugging(false);
+			$im->setDebugging(false);
 			$im->maskOption($mask_option);
 			$im->loadImage($path_to_gal.$prefix.$filename);
 			$im->applyMask($imagemask_img);
-		    $im->saveImage($path_to_gal.$prefix.$filename);
-		    
-		    @ImageDestroy($im->_img['orig']);
+			$im->saveImage($path_to_gal.$prefix.$filename);
+
+			@ImageDestroy($im->_img['orig']);
 			@ImageDestroy($im->_mask['orig']);
 			@ImageDestroy($im->_img['final']);
 			@ImageDestroy($im->_mask['gray']);
-			
+
 			unset($im);
 		}
 		if($_REQUEST['action']!='gallery_synch' || $prefix != "") {
@@ -385,16 +385,16 @@ class maxiGallery {
 	//-------------------------------------------------------------------------------------------------
 	//function to delete non empty directory
 	function deldir($dir){
-	  $current_dir = opendir($dir);
-	  while($entryname = readdir($current_dir)){
-	     if(is_dir("$dir/$entryname") and ($entryname != "." and $entryname!="..")){
-	        $this->deldir("${dir}/${entryname}");
-	     }elseif($entryname != "." and $entryname!=".."){
-	        unlink("${dir}/${entryname}");
-	     }
-	  }
-	  closedir($current_dir);
-	  rmdir(${dir});
+		$current_dir = opendir($dir);
+		while($entryname = readdir($current_dir)){
+			if(is_dir("$dir/$entryname") and ($entryname != "." and $entryname!="..")){
+				$this->deldir("${dir}/${entryname}");
+			}elseif($entryname != "." and $entryname!=".."){
+				unlink("${dir}/${entryname}");
+			}
+		}
+		closedir($current_dir);
+		rmdir(${dir});
 	}
 	//-------------------------------------------------------------------------------------------------
 	//function to convert gif to png
@@ -457,7 +457,7 @@ class maxiGallery {
 				}
 			}else if($this->mgconfig['big_use_watermark'] || $this->mgconfig['big_use_dropshadow'] || $this->mgconfig['big_use_imagemask']){
 				//if max size is not set for the big pics, but image still needs to be changed
-				$retStr = $this->createthumb($name,$type,$this->path_to_gal,"big_",false);		
+				$retStr = $this->createthumb($name,$type,$this->path_to_gal,"big_",false);
 			}else{
 				//else just copy
 				copy($this->path_to_gal.$name, $this->path_to_gal."big_".$name);
@@ -471,7 +471,7 @@ class maxiGallery {
 		if ($retStr != "") {
 			return $retStr;
 		}
-		//create normal 
+		//create normal
 		if($this->mgconfig['max_pic_size']>0 && ($imagesize[0]>$this->mgconfig['max_pic_size'] || $imagesize[1]>$this->mgconfig['max_pic_size'])) {
 			$retStr = $this->createthumb($name,$type,$this->path_to_gal,"");
 		}else if($this->mgconfig['pic_use_watermark'] || $this->mgconfig['pic_use_dropshadow'] || $this->mgconfig['pic_use_imagemask']){
@@ -519,30 +519,30 @@ class maxiGallery {
 					return 'Cannot find PclZip class file! ('.$zipclass.')';
 				}
 			}
-			
-  			$archive = new PclZip($this->path_to_gal.$name);
-  			$list = $archive->extract(PCLZIP_OPT_PATH, $this->path_to_gal, PCLZIP_OPT_REMOVE_ALL_PATH, PCLZIP_CB_PRE_EXTRACT, 'preZipExtract');
-  			unlink($this->path_to_gal.$name);
-  			if ($list == 0) {
-    			return "Error : ".$archive->errorInfo(true);
-  			} else {
-  				for($i=0;$i<count($list);$i++){
-  					if ($list[$i]['status'] == 'ok') {
-  						//if max pics limit reached, return
-  						if($this->mgconfig['max_pic_number']!=0 && $current_pics_count != -1 && ($this->mgconfig['max_pic_number'] <= ($i + $current_pics_count))){
+
+			$archive = new PclZip($this->path_to_gal.$name);
+			$list = $archive->extract(PCLZIP_OPT_PATH, $this->path_to_gal, PCLZIP_OPT_REMOVE_ALL_PATH, PCLZIP_CB_PRE_EXTRACT, 'preZipExtract');
+			unlink($this->path_to_gal.$name);
+			if ($list == 0) {
+				return "Error : ".$archive->errorInfo(true);
+			} else {
+				for($i=0;$i<count($list);$i++){
+					if ($list[$i]['status'] == 'ok') {
+						//if max pics limit reached, return
+						if($this->mgconfig['max_pic_number']!=0 && $current_pics_count != -1 && ($this->mgconfig['max_pic_number'] <= ($i + $current_pics_count))){
 							return $this->strings['max_pics_reached_some_discarded'];
 						}
-  						//remove random number from the beginning of filename and generate new filename
-  						$info = pathinfo($list[$i]['filename']);
-  						$newname = $this->getFilename(substr($info['basename'], 7));
-  						if(rename($list[$i]['filename'], $info['dirname'].'/'.$newname)){
-  							$this->handleFile($newname);
-  						} else {
-  							$this->handleFile($list[$i]['filename']);	
-  						}
-  					}
-  				}
-  			}
+						//remove random number from the beginning of filename and generate new filename
+						$info = pathinfo($list[$i]['filename']);
+						$newname = $this->getFilename(substr($info['basename'], 7));
+						if(rename($list[$i]['filename'], $info['dirname'].'/'.$newname)){
+							$this->handleFile($newname);
+						} else {
+							$this->handleFile($list[$i]['filename']);
+						}
+					}
+				}
+			}
 		} else {
 			unlink($this->path_to_gal.$name);
 			return $this->strings['supported_types'];
@@ -561,8 +561,8 @@ class maxiGallery {
 			//check for existing filenames
 			$ni = 1;
 			$base = $name;
-			while (file_exists($this->path_to_gal.$base)) { 
-				$base=$ni.$name; 
+			while (file_exists($this->path_to_gal.$base)) {
+				$base=$ni.$name;
 				$ni++;
 			}
 			$name = $base;
@@ -583,7 +583,7 @@ class maxiGallery {
 			display: none;
 			}
 			</style>';
-			
+
 		$smoothgallery_script_str = '
 			<script type="text/javascript">
 			function startGallery() {
@@ -663,7 +663,7 @@ class maxiGallery {
 				$modx->regClientCSS($modx->getChunk($this->mgconfig['css']));
 			} else if (file_exists($modx->config['base_path'].$this->mgconfig['css'])) {
 				$modx->regClientCSS('<link rel="stylesheet" href="'. $modx->config['base_url'].$this->mgconfig['css'].'" type="text/css" media="screen" />');
-			} else {	
+			} else {
 				$modx->regClientCSS($this->mgconfig['css']);
 			}
 		}
@@ -681,7 +681,7 @@ class maxiGallery {
 	//function to load correct css and scripts
 	function regScriptsAndCSS(){
 		global $modx;
-		
+
 		//slidebox css
 		$slidebox_css_link = '<link rel="stylesheet" href="'. $modx->config['base_url'].MAXIGALLERY_PATH.'slidebox/style.css" type="text/css" media="screen" />';
 		$slidebox_css_str = '
@@ -696,7 +696,7 @@ class maxiGallery {
 			</style>
 			<![endif]>
 			<![endif]-->';
-		
+
 		//slidebox scripts
 		$slidebox_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slidebox/slidebox_setup.js';
 		$slidebox_settings = MAXIGALLERY_PATH.'slidebox/slidebox_lang_'.$this->mgconfig['lang'].'.js';
@@ -710,7 +710,7 @@ class maxiGallery {
 
 		//lightbox scripts
 		$lightboxv2_css_link = '<link rel="stylesheet" href="' . $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/css/lightbox.css" type="text/css" media="screen" />';
-		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_setup.js'; 
+		$lightboxv2_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_setup.js';
 		$lightboxv2_settings = MAXIGALLERY_PATH . 'lightboxv2/js/lightbox_lang_'.$this->mgconfig['lang'].'.js';
 		if(file_exists($modx->config['base_path'].$lightboxv2_settings)){
 			$lightboxv2_script_link2 = $modx->config['base_url'] . $lightboxv2_settings;
@@ -720,26 +720,26 @@ class maxiGallery {
 		$lightboxv2_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/prototype.js';
 		$lightboxv2_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/scriptaculous.js?load=effects';
 		$lightboxv2_script_link5 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'lightboxv2/js/lightbox.js';
-		
+
 		//slimbox scripts
 		$slimbox_css_link = '<link rel="stylesheet" href="' . $modx->config['base_url'] . MAXIGALLERY_PATH . 'slimbox/css/slimbox.css" type="text/css" media="screen" />';
-		$slimbox_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slimbox/js/mootools.js'; 
+		$slimbox_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slimbox/js/mootools.js';
 		$slimbox_settings = MAXIGALLERY_PATH . 'slimbox/js/slimbox_lang_'.$this->mgconfig['lang'].'.js';
 		if(file_exists($modx->config['base_path'].$slimbox_settings)){
 			$slimbox_script_link2 = $modx->config['base_url'] . $slimbox_settings;
 		}else{
 			$slimbox_script_link2 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slimbox/js/slimbox_lang_en.js';
 		}
-		$slimbox_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slimbox/js/slimbox.js';		
-		
+		$slimbox_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'slimbox/js/slimbox.js';
+
 		//smoothgallery scripts
 		$smoothgallery_css_link = '<link rel="stylesheet" href="' . $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/css/jd.gallery.css" type="text/css" media="screen" />';
-		$smoothgallery_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/mootools.v1.11.js'; 
+		$smoothgallery_script_link1 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/mootools.v1.11.js';
 		$smoothgallery_script_link2 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/jd.gallery.js';
 		$smoothgallery_script_link3 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/jd.gallery.transitions.js';
 		$smoothgallery_script_link4 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/jd.gallery.set.js';
 		$smoothgallery_script_link5 = $modx->config['base_url'] . MAXIGALLERY_PATH . 'smoothgallery/js/HistoryManager.js';
-				
+
 		//custom scripts
 		$popup_script = $modx->config['base_url'] . MAXIGALLERY_PATH . 'js/popup.js';
 		$external_script = $modx->config['base_url'] . MAXIGALLERY_PATH . 'js/external.js';
@@ -754,12 +754,12 @@ class maxiGallery {
 		if(($this->mgconfig['display'] == "embedded" && $this->mgconfig['embedtype'] == "external") || ($this->mgconfig['keep_bigimg'] && $this->mgconfig['big_img_linkstyle'] == "external" )){
 			$modx->regClientStartupScript($external_script);
 		}
-		
+
 		//register rightclick disabling if enabled
 		if($this->mgconfig['disable_rightclick']){
 			$modx->regClientStartupScript($click_script);
 		}
-		
+
 		//register slidebox scripts if in use
 		if(($this->mgconfig['display'] == "embedded" && $this->mgconfig['embedtype'] == "slidebox") || ($this->mgconfig['keep_bigimg'] && $this->mgconfig['big_img_linkstyle'] == "slidebox")){
 			$modx->regClientCSS($slidebox_css_link);
@@ -772,7 +772,7 @@ class maxiGallery {
 			}
 			$modx->regClientStartupScript($slidebox_script_link4);
 		}
-		
+
 		//register lightboxv2.0 scripts if in use
 		if(($this->mgconfig['display'] == "embedded" && $this->mgconfig['embedtype'] == "lightboxv2") || ($this->mgconfig['keep_bigimg'] && $this->mgconfig['big_img_linkstyle'] == "lightboxv2")){
 			$modx->regClientCSS($lightboxv2_css_link);
@@ -785,7 +785,7 @@ class maxiGallery {
 			}
 			$modx->regClientStartupScript($lightboxv2_script_link5);
 		}
-		
+
 		//register slimbox scripts if in use
 		if(($this->mgconfig['display'] == "embedded" && $this->mgconfig['embedtype'] == "slimbox") || ($this->mgconfig['keep_bigimg'] && $this->mgconfig['big_img_linkstyle'] == "slimbox")){
 			$modx->regClientCSS($slimbox_css_link);
@@ -796,7 +796,7 @@ class maxiGallery {
 			$modx->regClientStartupScript($slimbox_script_link2);
 			$modx->regClientStartupScript($slimbox_script_link3);
 		}
-		
+
 		//register smoothgallery scripts if in use
 		if(($this->mgconfig['display'] == "embedded" && $this->mgconfig['embedtype'] == "smoothgallery") || ($this->mgconfig['smoothgallery_pictureview'])) {
 			$modx->regClientCSS($smoothgallery_css_link);
@@ -807,13 +807,13 @@ class maxiGallery {
 			$modx->regClientStartupScript($smoothgallery_script_link2);
 			$modx->regClientStartupScript($smoothgallery_script_link3);
 			if ($this->mgconfig['childembedtype'] == "smoothgallery") {
-				$modx->regClientStartupScript($smoothgallery_script_link4); 
+				$modx->regClientStartupScript($smoothgallery_script_link4);
 			}
 			if($this->mgconfig['smoothgallery_useHistoryManager'] == 'true') {
 				$modx->regClientStartupScript($smoothgallery_script_link5);
 			}
 		}
-		
+
 		$this->regSnippetScriptsAndCSS();
 	}
 	//-------------------------------------------------------------------------------------------------
@@ -844,48 +844,48 @@ class maxiGallery {
 			$kids = $this->getChildIds($seed, $descendentDepth, $kids);
 		}
 		$kids = array_values($kids);
-		
+
 		$kids = array_merge($kids, $seedArray);
-		
+
 		$index = array_search($modx->documentIdentifier, $kids);
-		
+
 		if(count($kids) == 1 && $kids[0] == $modx->documentIdentifier) {
 			unset($kids[0]);
 		}
-		
+
 		if ($index) {
 			unset($kids[$index]);
 		}
 
 		//remove id's that don't have gallery
 		$kids = array_intersect($kids, $childgalleryIds);
-		
+
 		//check if sorting is done by TV name
 		$sortByTV = false;
 		if (substr($sortby, 0, 2)=="tv") {
 			$sortByTV = substr($sortby, 2);
 			$sortby = "createdon";
 		}
-		
-		//if random order, use mysql RAND() 
+
+		//if random order, use mysql RAND()
 		if ($sortby == "random") {
 			$order = "RAND()";
 		}else{
 			$order = $sortby;
 		}
-		
+
 		$resources = $modx->getDocuments($kids, $showPublishedOnly, 0, "*", '', $order, $sortdir);
-		
+
 		if ($limit != 0) {
 			$resources = array_slice($resources, 0, $limit);
 		}
-		
+
 		if(count($tvNames)>0){
 			$resultIds = array();
 			foreach ($resources as $res) {
 				$resultIds[] = $res['id'];
 			}
-			
+
 			$allTvars = $this->getTVList();
 			$tvValues = array();
 			foreach ($tvNames as $tvName) {
@@ -902,10 +902,10 @@ class maxiGallery {
 				}
 			}
 		}
-		
+
 		if ($sortByTV) {
 			foreach ($resources as $resource) {
-    			$column[] = $resource['tv.'.$sortByTV];
+				$column[] = $resource['tv.'.$sortByTV];
 			}
 			if (strtolower($sortdir) == "desc") {
 				array_multisort($column, SORT_DESC, $resources);
@@ -915,7 +915,7 @@ class maxiGallery {
 		}
 		return $resources;
 	}
-	//-------------------------------------------------------------------------------------------------	
+	//-------------------------------------------------------------------------------------------------
 	//function to get all childs by Jason Coward
 	function getChildIds($id, $depth= 10, $children= array()) {
 		global $modx;
@@ -937,8 +937,8 @@ class maxiGallery {
 				}
 				$c[$childKey]= $childId;
 			}
-     	}
-     	$depth--;
+		}
+		$depth--;
 		if (is_array($c)) {
 			if (is_array($children)) {
 				$children= $children + $c;
@@ -950,33 +950,33 @@ class maxiGallery {
 					$children= $children + $this->getChildIds($child, $depth, $children);
 				}
 			}
-     	}
+		}
 		return $children;
 	}
-	
-	//-------------------------------------------------------------------------------------------------	
+
+	//-------------------------------------------------------------------------------------------------
 	//function to generate urls for pagination by keeping existing url parameters by bS
 	//http://modxcms.com/forums/index.php/topic,5309.0.html
 	function getPaginationUrl($docid, $docalias, $array_values) {
 		global $modx;
 		$array_url = $_GET;
 		$urlstring = array();
-		
+
 		unset($array_url["id"]);
 		unset($array_url["q"]);
-		
+
 		$array_url = array_merge($array_url,$array_values);
 
 		foreach ($array_url as $name => $value) {
 			if (!is_null($value)) {
-			  $urlstring[] = $name . '=' . urlencode($value);
+				$urlstring[] = $name . '=' . urlencode($value);
 			}
 		}
-		
+
 		return $modx->makeUrl($docid, $docalias, join('&',$urlstring));
 	}
 
-	//-------------------------------------------------------------------------------------------------	
+	//-------------------------------------------------------------------------------------------------
 	//function to generate random strings
 	function getRandomString($lenght){
 		$str = "";
@@ -991,15 +991,15 @@ class maxiGallery {
 		}
 		return $str;
 	}
-	
-	//-------------------------------------------------------------------------------------------------	
-	//function to append a TV to the documents array by Mark Kaplan 
+
+	//-------------------------------------------------------------------------------------------------
+	//function to append a TV to the documents array by Mark Kaplan
 	function appendTV($tvname,$docIDs){
 		global $modx;
-		
+
 		$baspath= $modx->config["base_path"] . "manager/includes";
-	    include_once $baspath . "/tmplvars.format.inc.php";
-	    include_once $baspath . "/tmplvars.commands.inc.php";
+		include_once $baspath . "/tmplvars.format.inc.php";
+		include_once $baspath . "/tmplvars.commands.inc.php";
 
 		$tb1 = $modx->getFullTableName("site_tmplvar_contentvalues");
 		$tb2 = $modx->getFullTableName("site_tmplvars");
@@ -1012,7 +1012,7 @@ class maxiGallery {
 		$resourceArray = array();
 		for($i=0;$i<$tot;$i++)  {
 			$row = @$modx->fetchRow($rs);
-			$resourceArray["#{$row['contentid']}"][$row['name']] = getTVDisplayFormat($row['name'], $row['value'], $row['display'], $row['display_params'], $row['type'],$row['contentid']);   
+			$resourceArray["#{$row['contentid']}"][$row['name']] = getTVDisplayFormat($row['name'], $row['value'], $row['display'], $row['display_params'], $row['type'],$row['contentid']);
 		}
 
 		if ($tot != count($docIDs)) {
@@ -1037,12 +1037,11 @@ class maxiGallery {
 		global $modx;
 		$table = $modx->getFullTableName("site_tmplvars");
 		$tvs = $modx->db->select("name", $table);
-			// TODO: make it so that it only pulls those that apply to the current template
+		// TODO: make it so that it only pulls those that apply to the current template
 		$dbfields = array();
 		while ($dbfield = $modx->db->getRow($tvs))
 			$dbfields[] = $dbfield['name'];
 		return $dbfields;
-	}	
+	}
 }
 //-------------------------------------------------------------------------------------------------
-?>
