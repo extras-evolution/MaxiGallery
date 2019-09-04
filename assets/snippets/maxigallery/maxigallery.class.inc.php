@@ -895,9 +895,9 @@ class maxiGallery {
 				}
 			}
 			//loop through the document array and add the tvar values to each document
-			for ($i=0, $iMax = count($resources); $i< $iMax; $i++) {
-				if (array_key_exists("#{$resources[$i]['id']}",$tvValues)) {
-					foreach ($tvValues["#{$resources[$i]['id']}"] as $tvName => $tvValue) {
+			foreach ($resources as $i => $iValue) {
+				if (array_key_exists("#{$iValue['id']}",$tvValues)) {
+					foreach ($tvValues["#{$iValue['id']}"] as $tvName => $tvValue) {
 						$resources[$i]['tv.'.$tvName] = $tvValue;
 					}
 				}
